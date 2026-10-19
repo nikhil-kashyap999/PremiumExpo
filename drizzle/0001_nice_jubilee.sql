@@ -1,0 +1,1 @@
+ALTER TABLE `messages` ADD `is_received` integer DEFAULT false NOT NULL;
