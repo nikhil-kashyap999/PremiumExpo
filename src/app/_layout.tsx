@@ -18,8 +18,6 @@ export default function RootLayout() {
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
 
   useEffect(() => {
-    const env = process.env;
-    console.log("env : ",env);
     restoreSession();
   }, []);
 

@@ -7,6 +7,7 @@ import { getConversationId, toMillis } from "@/utils/chat-store.utils";
 import { IncomingMsg } from "@/services/types/chat";
 import { useToast } from "./toast-store";
 import { useLoadingModel } from "./loadingModal-store";
+import { useAuthStore } from "./auth-store";
 
 type DefualtProp = {
   messages: NewMessage[];
@@ -58,6 +59,11 @@ export const ChatRoomStore = create<DefualtProp>((set, get) => ({
         createdAt: toMillis(),
         status: "sent",
       };
+      if (msg.senderid !== useAuthStore.getState().participant?._id) {
+        console.log("Save backend message");
+        saveMessages(msgObj, { isIncoming: true });
+        return;
+      }
       saveMessages(msgObj, { isIncoming: true });
       ChatRoomStore.getState().setMessage(msgObj);
     } catch (e) {

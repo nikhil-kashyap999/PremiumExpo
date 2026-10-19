@@ -67,11 +67,11 @@ export default function NotificationCard() {
       >
         <View>
           <Image
-            source={{
-              uri:
-                userInfo?.avatarUrl ??
-                require("@/assets/images/default-avatar.png"),
-            }}
+            source={
+              userInfo?.avatarUrl
+                ? { uri: userInfo.avatarUrl }
+                : require("@/assets/images/default-avatar.png")
+            }
             className="w-11 h-11 rounded-full bg-neutral-600"
           />
           <View

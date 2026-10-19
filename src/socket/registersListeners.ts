@@ -1,5 +1,6 @@
 import { SERVER_EVENTS } from "./events";
 import { Socket } from "socket.io-client";
+import { useAuthStore } from "@/store/auth-store";
 import { ChatRoomStore } from "@/store/chat-store";
 import { useSocketStore } from "@/store/socketStore";
 import { ContactStore } from "@/store/contacts-store";
@@ -19,6 +20,17 @@ export function registerSocketListners(socket: Socket) {
       console.warn("Invalid message payload:", msg);
       return;
     }
+    // if sender is not the one whom user chatting with show notification
+    if (msg.senderid !== useAuthStore.getState().participant?._id) {
+      const user = ContactStore.getState().getContact(msg.senderid);
+      useNotificationStore.getState().showModal(
+        {
+          username: user?.username ?? "username",
+          avatarUrl: user?.avatarUrl ?? null,
+        },
+        "new message",
+      );
+    }
     ChatRoomStore.getState().handleIncomingMessage(msg);
   };
   const onPresence = (contact: { userid: string; isActive: boolean }) => {
@@ -27,7 +39,10 @@ export function registerSocketListners(socket: Socket) {
   const onInviteNotification = (obj: UserInfoType) => {
     useNotificationStore
       .getState()
-      .showModal({ username: obj.username, avatarUrl: obj.avatarUrl });
+      .showModal(
+        { username: obj.username, avatarUrl: obj.avatarUrl },
+        "invite notification",
+      );
   };
 
   socket.on("connect", onConnect);

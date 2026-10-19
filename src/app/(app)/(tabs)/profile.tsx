@@ -1,6 +1,5 @@
 import { Image } from "expo-image";
 import Header from "@/components/header";
-import { useRouter } from "expo-router";
 import { useAuthStore } from "@/store/auth-store";
 import CustomStatusBar from "@/components/status-bar";
 import Animated, { FadeInDown } from "react-native-reanimated";
@@ -9,10 +8,8 @@ import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import SettingSection from "@/components/setting-section";
 import Icon from "@expo/vector-icons/MaterialIcons";
 import { useLoadingModel } from "@/store/loadingModal-store";
-import MessageModal from "@/components/message-modal";
 
 export default function profile() {
-  const router = useRouter();
   const user = useAuthStore((s) => s.user);
   const logoutMethod = useAuthStore((s) => s.logout);
   const stopLoadingModel = useLoadingModel((s) => s.stopLoadingModel);
@@ -28,12 +25,11 @@ export default function profile() {
     <SafeAreaView className="flex-1">
       <CustomStatusBar />
       <Header title="Profile" />
-      <MessageModal />
       <View className="px-4">
         <View className="w-full mt-1 max-h-20 py-2 border border-neutral-700 rounded-2xl px-3 flex-row items-center bg-neutral-800 mb-2">
           <Image
             source={{ uri: user?.avatarUrl }}
-            style={{ width: 40, height: 40, borderRadius: 50}}
+            style={{ width: 40, height: 40, borderRadius: 50 }}
             contentFit="cover"
             placeholder={require("@/assets/images/default-avatar.png")} // blur-up placeholder
             transition={200} // fade-in animation
@@ -54,9 +50,7 @@ export default function profile() {
               <Text className="font-semibold text-stone-200">
                 {user.username}
               </Text>
-              <Text className="text-stone-200">
-                {user.email}
-              </Text>
+              <Text className="text-stone-200">{user.email}</Text>
               <Text className="font-bold text-sm text-sky-500">online</Text>
             </View>
           )}

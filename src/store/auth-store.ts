@@ -20,7 +20,7 @@ type AuthState = {
   restoreSession: () => Promise<void>;
   signup: (
     formData: SignUpFormDataType,
-  ) => Promise<{ isSuccess: boolean; message: string; } | undefined>;
+  ) => Promise<{ isSuccess: boolean; message: string } | undefined>;
 };
 
 export const useAuthStore = create<AuthState>((set) => ({
@@ -96,20 +96,18 @@ export const useAuthStore = create<AuthState>((set) => ({
 
   signup: async (
     formData: SignUpFormDataType,
-  ): Promise<
-    { isSuccess: boolean; message: string; } | undefined
-  > => {
+  ): Promise<{ isSuccess: boolean; message: string } | undefined> => {
     try {
       const { data } = await axios.post(
         `${SOCKET_URL}/api/auth/register`,
         formData,
         { headers: { "X-Client-Type": "mobile" } },
       );
-      await TokenStorage.setTokens(data.accessToken,data.refreshToken);
+      await TokenStorage.setTokens(data.accessToken, data.refreshToken);
       return { isSuccess: true, message: data.message };
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        return { isSuccess: false, message: error.response?.data?.message};
+        return { isSuccess: false, message: error.response?.data?.message };
       }
     }
   },
