@@ -2,7 +2,10 @@ import { and, desc, eq, lt } from "drizzle-orm";
 import { db } from "./client";
 import { messages, NewMessage } from "./schema";
 
-export function saveMessages(msg: NewMessage, opt: { isIncoming: boolean }) {
+export async function saveMessages(
+  msg: NewMessage,
+  opt: { isIncoming: boolean },
+) {
   db.transaction((tx) => {
     tx.insert(messages)
       .values(msg)
@@ -28,7 +31,7 @@ export async function getMessages(
         before ? lt(messages.createdAt, before) : undefined,
       ),
     )
-    .orderBy((messages.createdAt))
+    .orderBy(messages.createdAt)
     .limit(limit);
 }
 

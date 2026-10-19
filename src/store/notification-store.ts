@@ -25,8 +25,8 @@ export const useNotificationStore = create<DefaultProp>((set) => ({
   duration: 4000,
   isModalVisible: false,
   NotificationLabel: "invite notification",
-  showModal: (user, NFtype) => {
-    set({ isModalVisible: true, userInfo: user, NotificationLabel: NFtype });
+  showModal: (userInfo, NotificationLabel) => {
+    set({ isModalVisible: true, userInfo, NotificationLabel });
   },
   hideModal: () => {
     set({ isModalVisible: false, userInfo: null });

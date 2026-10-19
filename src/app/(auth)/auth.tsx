@@ -5,8 +5,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { StatusBar } from "expo-status-bar";
 import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
+import { APP_NAME } from "@/constants/AppName";
 
-const APP_NAME = "SendME";
 const TAGLINE = "Stay connected with the people who matter, in real time.";
 
 enum Paths {
@@ -30,14 +30,10 @@ export default function AuthScreen() {
         entering={FadeInUp.duration(700)}
         className="flex-1 items-center justify-center px-8"
       >
-        {/* <View className="h-24 w-24 items-center justify-center rounded-3xl border border-blue-400/20 bg-sky-400/10">
-          <Ionicons name="chatbubble-ellipses" size={44} color="#3b82f6" />
-        </View> */}
-
-        <Text className="mt-8 text-4xl font-extrabold tracking-tight text-white">
+        <Text className="mt-8 text-4xl font-extrabold text-white tracking-[20]">
           {APP_NAME}
         </Text>
-        <Text className="mt-3 text-center text-base leading-6 text-neutral-400">
+        <Text className="mt-3 text-center text-sm leading-6 text-neutral-400">
           {TAGLINE}
         </Text>
       </Animated.View>

@@ -48,7 +48,7 @@ export const ChatRoomStore = create<DefualtProp>((set, get) => ({
     saveMessages(msgObj, { isIncoming: false });
   },
 
-  handleIncomingMessage: (msg) => {
+  handleIncomingMessage: async (msg) => {
     try {
       const msgObj: NewMessage = {
         id: Crypto.randomUUID(),
@@ -59,13 +59,10 @@ export const ChatRoomStore = create<DefualtProp>((set, get) => ({
         createdAt: toMillis(),
         status: "sent",
       };
-      if (msg.senderid !== useAuthStore.getState().participant?._id) {
-        console.log("Save backend message");
-        saveMessages(msgObj, { isIncoming: true });
-        return;
+      if (msg.senderid === useAuthStore.getState().participant?._id) {
+        ChatRoomStore.getState().setMessage(msgObj);
       }
-      saveMessages(msgObj, { isIncoming: true });
-      ChatRoomStore.getState().setMessage(msgObj);
+      await saveMessages(msgObj, { isIncoming: true });
     } catch (e) {
       console.error("Failed to save incoming message:", e);
     }

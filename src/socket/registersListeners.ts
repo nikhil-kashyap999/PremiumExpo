@@ -22,11 +22,11 @@ export function registerSocketListners(socket: Socket) {
     }
     // if sender is not the one whom user chatting with show notification
     if (msg.senderid !== useAuthStore.getState().participant?._id) {
-      const user = ContactStore.getState().getContact(msg.senderid);
+      const contact = ContactStore.getState().getContact(msg.senderid);
       useNotificationStore.getState().showModal(
         {
-          username: user?.username ?? "username",
-          avatarUrl: user?.avatarUrl ?? null,
+          username: contact?.username ?? "username",
+          avatarUrl: contact?.avatarUrl ?? null,
         },
         "new message",
       );

@@ -29,7 +29,7 @@ const OtpVerification = ({ onVerify, length = 6, autoSubmit = true }: Prop) => {
   const [otp, setOtp] = useState<string[]>(Array(length).fill(""));
   const [countDown, setCountdown] = useState<number>(0);
   const createToast = useToast((s) => s.createToast);
-  const PRODUCTION_EMAIL = process.env.pEXPO_PUBLIC_PRODUCTION_EMAIL;
+  const PRODUCTION_EMAIL = process.env.EXPO_PUBLIC_PRODUCTION_EMAIL;
 
   const isComplete = otp.every((digit) => digit !== "");
 
