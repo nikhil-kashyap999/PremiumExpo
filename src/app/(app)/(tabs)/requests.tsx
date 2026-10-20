@@ -9,7 +9,6 @@ import { axiosApi } from "@/services/axiosApi";
 import { useToast } from "@/store/toast-store";
 import { isAxiosError } from "axios";
 import { useFocusEffect } from "expo-router";
-import { useLoadingModel } from "@/store/loadingModal-store";
 import { useMessageModal } from "@/store/messageModal-store";
 import { RequestsSenderType, RequestsType } from "@/types/RequestResultType";
 
@@ -78,7 +77,7 @@ export default function requests() {
       >
         <MaterialIcons name="refresh" size={35} color="gray" />
       </TouchableOpacity>
-      {results.length === 0 && !loading &&  (
+      {results.length === 0 && !loading && (
         <View className="flex-1 justify-center">
           <Animated.View
             entering={FadeInUp.delay(200).duration(400)}

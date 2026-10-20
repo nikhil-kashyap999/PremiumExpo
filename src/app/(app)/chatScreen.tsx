@@ -10,14 +10,13 @@ import { useAuthStore } from "@/store/auth-store";
 import { ContactStore } from "@/store/contacts-store";
 import ChatScreenHeader from "@/components/ui/chatScreen/chatScreenHeader";
 import { MessagesContainer } from "@/components/message-container";
-import { getMessages } from "@/db/queries";
 
 export default function ChatScreen() {
   const { id }: { id: string } = useLocalSearchParams();
   const contact = ContactStore((s) => s.getContact(id));
   const setParticipentInStore = useAuthStore((s) => s.setParticipant);
   const participant = contact ?? dummyContact;
-  
+
   useEffect(() => {
     if (contact) setParticipentInStore(contact);
   }, [contact, setParticipentInStore]);

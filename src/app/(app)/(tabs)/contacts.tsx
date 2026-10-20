@@ -44,6 +44,7 @@ export default function ContactsScreen() {
   };
 
   useEffect(() => {
+    fetchContacts();
     return () => {
       if (timer.current) clearTimeout(timer.current);
     };

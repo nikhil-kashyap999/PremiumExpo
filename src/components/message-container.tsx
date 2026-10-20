@@ -24,10 +24,7 @@ export function MessagesContainer() {
     if (!userid || !participantid) return;
     startLoading();
     getMessages(getConversationId(userid, participantid))
-      .then((data) => {
-        setBulkMessages(data);
-        console.log(data);
-      })
+      .then((data) => setBulkMessages(data))
       .catch((err) => createToast(err?.message ?? "Failed to load messages"))
       .finally(() => {
         stopLoading();
