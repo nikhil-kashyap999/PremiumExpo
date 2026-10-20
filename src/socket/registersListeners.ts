@@ -44,12 +44,20 @@ export function registerSocketListners(socket: Socket) {
         "invite notification",
       );
   };
+  const onMessageAck = async (payload: {
+    messageid: string;
+    receiverid: string;
+  }) => {
+    ChatRoomStore.getState().updateMessageStatus(payload.messageid, "sent");
+  }
 
   socket.on("connect", onConnect);
   socket.on("disconnect", onDisconnect);
   socket.on(SERVER_EVENTS.MESSAGE_NEW, onNewMessage);
   socket.on(SERVER_EVENTS.PRESENCE_UPDATE, onPresence);
   socket.on(SERVER_EVENTS.INVITE_NOTIFICATION, onInviteNotification);
+  socket.on(SERVER_EVENTS.MESSAGE_ACK, onMessageAck);
+
   socket.on("connect_error", async (err) => {
     console.log(err);
   });
@@ -60,7 +68,9 @@ export function registerSocketListners(socket: Socket) {
     socket.off(SERVER_EVENTS.MESSAGE_NEW, onNewMessage);
     socket.off(SERVER_EVENTS.PRESENCE_UPDATE, onPresence);
     socket.off(SERVER_EVENTS.INVITE_NOTIFICATION, onInviteNotification);
-    socket.on("connect_error", async (err) => {
+    socket.off(SERVER_EVENTS.MESSAGE_ACK, onMessageAck);
+
+    socket.off("connect_error", async (err) => {
       console.log(err);
     });
   };

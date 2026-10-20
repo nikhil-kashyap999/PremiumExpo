@@ -30,7 +30,7 @@ export const messages = sqliteTable(
       .default(false),
     textMsg: text("text_msg").notNull(),
     createdAt: integer("created_at").notNull(),
-    status: text("status", { enum: ["pending", "sent", "failed"] })
+    status: text("status", { enum: ["pending", "sent", "sending", "delivered", "read", "failed"] })
       .notNull()
       .default("sent"),
   },

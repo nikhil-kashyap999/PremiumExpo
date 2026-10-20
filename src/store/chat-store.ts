@@ -1,22 +1,23 @@
 import { create } from "zustand";
 import * as Crypto from "expo-crypto";
-import { NewMessage } from "@/db/schema";
-import { deleteAllMessages, saveMessages } from "@/db/queries";
-import { sendMessage } from "@/socket/emitters";
-import { getConversationId, toMillis } from "@/utils/chat-store.utils";
-import { IncomingMsg } from "@/services/types/chat";
 import { useToast } from "./toast-store";
-import { useLoadingModel } from "./loadingModal-store";
+import { NewMessage } from "@/db/schema";
 import { useAuthStore } from "./auth-store";
+import { sendMessage } from "@/socket/emitters";
+import { useLoadingModel } from "./loadingModal-store";
+import { IncomingMessageType, Status } from "@/types/BareMessageType";
+import { deleteAllMessages, saveMessages } from "@/db/queries";
+import { getConversationId, toMillis } from "@/utils/chat-store.utils";
 
 type DefualtProp = {
   messages: NewMessage[];
   cleanMessages: () => void;
   setMessage: (msg: NewMessage) => void;
   setBulkMessags: (msg: NewMessage[]) => void;
-  handleIncomingMessage: (msg: IncomingMsg) => void;
+  handleIncomingMessage: (msg: IncomingMessageType) => void;
   deleteAllMessagesFromStorage: (cid: string) => Promise<void>;
   handleSendMessage: (msg: string, sid: string, rid: string) => void;
+  updateMessageStatus: (msgid: string, status: Status) => void;
 };
 
 export const ChatRoomStore = create<DefualtProp>((set, get) => ({
@@ -31,19 +32,21 @@ export const ChatRoomStore = create<DefualtProp>((set, get) => ({
     if (!text.trim()) {
       return;
     }
+    const msgId = Crypto.randomUUID();
     const msgObj: NewMessage = {
-      id: Crypto.randomUUID(),
+      id: msgId,
       conversationId: getConversationId(userid, participentid),
       senderId: userid,
       isReceived: false,
       textMsg: text,
       createdAt: toMillis(),
-      status: "sent",
+      status: "pending",
     };
     get().setMessage(msgObj);
     sendMessage({
       receiverid: participentid,
       message: text,
+      messageid: msgId,
     });
     saveMessages(msgObj, { isIncoming: false });
   },
@@ -51,7 +54,7 @@ export const ChatRoomStore = create<DefualtProp>((set, get) => ({
   handleIncomingMessage: async (msg) => {
     try {
       const msgObj: NewMessage = {
-        id: Crypto.randomUUID(),
+        id: msg.messageid ?? Crypto.randomUUID(),
         conversationId: getConversationId(msg.senderid, msg.receiverid),
         senderId: msg.senderid,
         isReceived: true,
@@ -79,4 +82,7 @@ export const ChatRoomStore = create<DefualtProp>((set, get) => ({
       useLoadingModel.getState().stopLoadingModel();
     }
   },
+  updateMessageStatus: (msgid, status) => (set(s => {
+    return { messages: s.messages.map(m => m.id === msgid ? { ...m, status } : m) }
+  }))
 }));
