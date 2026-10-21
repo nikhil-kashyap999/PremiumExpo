@@ -3,10 +3,11 @@ export type IncomingMessageType = {
   receiverid: string;
   message: string;
   messageid: string;
+  createdAt:number|string;
 };
 export type TransmittingMessageType = Pick<
   IncomingMessageType,
-  "receiverid" | "message" | "messageid"
+  "receiverid" | "message" | "messageid" | "createdAt"
 >;
 export type Status = "sending" | "sent" | "delivered" | "read" | "pending";
 

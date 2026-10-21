@@ -47,6 +47,7 @@ export const ChatRoomStore = create<DefualtProp>((set, get) => ({
       receiverid: participentid,
       message: text,
       messageid: msgId,
+      createdAt: msgObj.createdAt
     });
     saveMessages(msgObj, { isIncoming: false });
   },
