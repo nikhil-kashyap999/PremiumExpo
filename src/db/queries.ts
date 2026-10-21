@@ -1,6 +1,7 @@
-import { and, desc, eq, lt } from "drizzle-orm";
 import { db } from "./client";
+import { and, eq, lt } from "drizzle-orm";
 import { messages, NewMessage } from "./schema";
+import { Status } from "@/types/BareMessageType";
 
 export async function saveMessages(
   msg: NewMessage,
@@ -40,4 +41,8 @@ export async function deleteAllMessages(conversationId: string) {
     .delete(messages)
     .where(eq(messages.conversationId, conversationId))
     .run();
+}
+
+export async function updateMessageStatusInDb(msgid: string, status: Status) {
+  await db.update(messages).set({ status: status }).where(eq(messages.id, msgid));
 }

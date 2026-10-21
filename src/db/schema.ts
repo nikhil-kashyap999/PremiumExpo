@@ -32,7 +32,7 @@ export const messages = sqliteTable(
     createdAt: integer("created_at").notNull(),
     status: text("status", { enum: ["pending", "sent", "sending", "delivered", "read", "failed"] })
       .notNull()
-      .default("sent"),
+      .default("pending"),
   },
   (t) => [index("conv_created_idx").on(t.conversationId, t.createdAt)],
 );

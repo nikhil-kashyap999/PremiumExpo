@@ -4,8 +4,10 @@ import { useAuthStore } from "@/store/auth-store";
 import { ChatRoomStore } from "@/store/chat-store";
 import { useSocketStore } from "@/store/socketStore";
 import { ContactStore } from "@/store/contacts-store";
-import { IncomingMessageType } from "@/types/BareMessageType";
+import { IncomingMessageType, Status } from "@/types/BareMessageType";
 import { useNotificationStore, UserInfoType } from "@/store/notification-store";
+import { sendMessageStatus } from "./emitters";
+import { updateMessageStatusInDb } from "@/db/queries";
 
 export function registerSocketListners(socket: Socket) {
   const onConnect = () => {
@@ -32,6 +34,9 @@ export function registerSocketListners(socket: Socket) {
       );
     }
     ChatRoomStore.getState().handleIncomingMessage(msg);
+    const determinedMessageStatus: Status = msg.senderid === useAuthStore.getState().participant?._id ? "read" : "delivered";
+    sendMessageStatus({ messageid: msg.messageid, receiverid: msg.senderid, status: determinedMessageStatus })
+    updateMessageStatusInDb(msg.messageid, determinedMessageStatus);
   };
   const onPresence = (contact: { userid: string; isActive: boolean }) => {
     ContactStore.getState().updateContactPresence(contact);
@@ -49,14 +54,25 @@ export function registerSocketListners(socket: Socket) {
     receiverid: string;
   }) => {
     ChatRoomStore.getState().updateMessageStatus(payload.messageid, "sent");
+    updateMessageStatusInDb(payload.messageid, "sent");
+  }
+  const onMessageStatus = async (payload: {
+    messageid: string,
+    receiverid: string,
+    status: Status,
+    senderid: string,
+  }) => {
+    ChatRoomStore.getState().updateMessageStatus(payload.messageid, payload.status);
+    updateMessageStatusInDb(payload.messageid, payload.status);
   }
 
   socket.on("connect", onConnect);
   socket.on("disconnect", onDisconnect);
   socket.on(SERVER_EVENTS.MESSAGE_NEW, onNewMessage);
-  socket.on(SERVER_EVENTS.PRESENCE_UPDATE, onPresence);
-  socket.on(SERVER_EVENTS.INVITE_NOTIFICATION, onInviteNotification);
   socket.on(SERVER_EVENTS.MESSAGE_ACK, onMessageAck);
+  socket.on(SERVER_EVENTS.PRESENCE_UPDATE, onPresence);
+  socket.on(SERVER_EVENTS.MESSAGE_STATUS, onMessageStatus);
+  socket.on(SERVER_EVENTS.INVITE_NOTIFICATION, onInviteNotification);
 
   socket.on("connect_error", async (err) => {
     console.log(err);
@@ -66,10 +82,10 @@ export function registerSocketListners(socket: Socket) {
     socket.off("connect", onConnect);
     socket.off("disconnect", onDisconnect);
     socket.off(SERVER_EVENTS.MESSAGE_NEW, onNewMessage);
-    socket.off(SERVER_EVENTS.PRESENCE_UPDATE, onPresence);
-    socket.off(SERVER_EVENTS.INVITE_NOTIFICATION, onInviteNotification);
     socket.off(SERVER_EVENTS.MESSAGE_ACK, onMessageAck);
-
+    socket.off(SERVER_EVENTS.PRESENCE_UPDATE, onPresence);
+    socket.off(SERVER_EVENTS.MESSAGE_STATUS, onMessageStatus);
+    socket.off(SERVER_EVENTS.INVITE_NOTIFICATION, onInviteNotification);
     socket.off("connect_error", async (err) => {
       console.log(err);
     });

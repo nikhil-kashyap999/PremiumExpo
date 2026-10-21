@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     alignItems: "center",
-    borderRadius: 12,
+    borderRadius: 25,
     marginBottom: 10,
     shadowRadius: 2,
     overflow: "hidden",
@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   avatar: {
-    backgroundColor: "#262626",
+    backgroundColor: "gray",
   },
   statusDot: {
     position: "absolute",

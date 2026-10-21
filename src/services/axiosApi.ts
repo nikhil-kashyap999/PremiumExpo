@@ -55,7 +55,7 @@ axiosApi.interceptors.response.use(
         const { data } = await axios.post(
           `${baseURL}/api/auth/refresh`,
           { refreshToken },
-          { headers: { "X-Client-Type": "mobile-app" } },
+          { headers: { "X-Client-Type": "mobile" } },
         );
         await TokenStorage.setTokens(data.accessToken, data.refreshToken);
         processQueue(null, data.accessToken);

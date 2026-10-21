@@ -24,6 +24,8 @@ export function MessagesContainer() {
 
   const MessageStatus = ({ status }: { status?: Status }) => {
     switch (status) {
+      case "pending":
+        return <Ionicons name="time-outline" size={14} color="#9ca3af" />;
       case "sending":
         return <Ionicons name="time-outline" size={14} color="#9ca3af" />;
       case "sent":

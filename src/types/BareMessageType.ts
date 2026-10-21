@@ -8,7 +8,7 @@ export type TransmittingMessageType = Pick<
   IncomingMessageType,
   "receiverid" | "message" | "messageid"
 >;
-export type Status = "sending" | "sent" | "delivered" | "read";
+export type Status = "sending" | "sent" | "delivered" | "read" | "pending";
 
 export type MessageStatusType = {
   messageid: string;
