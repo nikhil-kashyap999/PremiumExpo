@@ -1,24 +1,22 @@
 {
   "expo": {
-    "name": "myapp",
+    "name": "PREMIUM",
     "slug": "myapp",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "ios": {
-      "icon": "./assets/expo.icon"
+      "bundleIdentifier": "com.nikhil.premium"
     },
     "android": {
+      "package": "com.nikhil.premium",
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./assets/images/android-icon-foreground.png",
-        "backgroundImage": "./assets/images/android-icon-background.png",
-        "monochromeImage": "./assets/images/android-icon-monochrome.png"
+        "backgroundColor": "#4498F9",
+        "foregroundImage": "./assets/adaptive-icon.png"
       },
-      "predictiveBackGestureEnabled": false,
-      "backgroundColor": "#000000"
+      "predictiveBackGestureEnabled": false
     },
     "web": {
       "output": "static",
@@ -30,7 +28,7 @@
         "expo-splash-screen",
         {
           "backgroundColor": "#000",
-          "image": "./assets/images/splash-icon.png",
+          "image": "./assets/adaptive-icon.png",
           "imageWidth": 76
         }
       ],
@@ -42,6 +40,12 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": false
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "27f2bfb6-acbb-4318-9f51-c3aa512830f5"
+      }
     }
   }
 }
