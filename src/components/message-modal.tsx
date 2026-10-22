@@ -75,7 +75,7 @@ function MessageModal() {
           <View style={styles.modalHeading}>
             <Text style={styles.modalHeadingStyle}>Message</Text>
           </View>
-          <Text style={styles.message} className="textne">
+          <Text style={styles.message}>
             {message || "message modal example"}
           </Text>
         </View>
@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
   },
   message: {
     fontSize: 15,
-    color: "#a3a3a3",
+    color: "#fffbeb",
     fontWeight: "semibold",
     textAlign: "center",
     lineHeight: 22,

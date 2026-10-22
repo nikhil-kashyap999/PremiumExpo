@@ -46,7 +46,7 @@ export default function AuthScreen() {
         <TouchableOpacity
           activeOpacity={0.85}
           accessibilityRole="button"
-          className="mb-3 w-full items-center rounded-2xl bg-blue-500 py-4"
+          className="mb-3 w-full items-center rounded-2xl bg-neutral-500 py-4"
           onPress={() => handleNavigation(Paths.register)}
         >
           <Text className="text-lg font-bold text-black">Create account</Text>

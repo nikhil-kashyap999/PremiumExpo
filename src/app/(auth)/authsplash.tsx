@@ -5,7 +5,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 
 export default function AuthSaplash() {
   const [dots, setDots] = useState(".");
-  
+
   useEffect(() => {
     const interval = setInterval(() => {
       setDots((prev) => (prev.length < 3 ? prev + "." : "."));
@@ -46,7 +46,6 @@ const styles = StyleSheet.create({
     height: 120,
     marginBottom: 20,
   },
-
   title: {
     fontSize: 28,
     color: "#E0E0E0",
