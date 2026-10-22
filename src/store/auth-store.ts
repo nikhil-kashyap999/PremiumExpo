@@ -1,11 +1,10 @@
 import axios from "axios";
 import { create } from "zustand";
 import { Alert } from "react-native";
-import { SOCKET_URL } from "@/config/socket";
 import { axiosApi } from "@/services/axiosApi";
 import { TokenStorage } from "@/utils/secure-storage";
-import { SignUpFormDataType } from "@/hooks/useSignupForm";
 import { ContactType } from "@/hooks/useFetchContacts";
+import { SignUpFormDataType } from "@/hooks/useSignupForm";
 
 type User = { id: string; username: string; email: string; avatarUrl: string };
 
@@ -37,14 +36,7 @@ export const useAuthStore = create<AuthState>((set) => ({
     password: string,
   ): Promise<string | undefined> => {
     try {
-      const { data } = await axios.post(
-        `${SOCKET_URL}/api/auth/login`,
-        {
-          username,
-          password,
-        },
-        { headers: { "X-Client-Type": "mobile" } },
-      );
+      const { data } = await axiosApi.post("/api/auth/login", { username, password });
       const user: User = {
         id: data.user._id,
         username: data.user.username,
@@ -98,11 +90,7 @@ export const useAuthStore = create<AuthState>((set) => ({
     formData: SignUpFormDataType,
   ): Promise<{ isSuccess: boolean; message: string } | undefined> => {
     try {
-      const { data } = await axios.post(
-        `${SOCKET_URL}/api/auth/register`,
-        formData,
-        { headers: { "X-Client-Type": "mobile" } },
-      );
+      const { data } = await axiosApi.post("/api/auth/register", formData);
       await TokenStorage.setTokens(data.accessToken, data.refreshToken);
       return { isSuccess: true, message: data.message };
     } catch (error) {

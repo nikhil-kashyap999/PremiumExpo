@@ -35,7 +35,7 @@ const LoginScreen = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
 
   const toSignupScreen = () => {
-    router.push("/(auth)/signup");
+    router.replace("/(auth)/signup");
   };
 
   const handleLogin = async () => {

@@ -1,14 +1,13 @@
 import axios, { InternalAxiosRequestConfig } from "axios";
-import { SOCKET_URL } from "@/config/socket";
 import { TokenStorage } from "@/utils/secure-storage";
 
-const baseURL = SOCKET_URL;
+const baseURL = process.env.EXPO_PUBLIC_BACKEND_URL;
 type RetryConfig = InternalAxiosRequestConfig & { _retry?: boolean };
 
 export const axiosApi = axios.create({
   baseURL,
   headers: {
-    "X-Client-Type": "mobile-app",
+    "X-Client-Type": "mobile",
   },
 });
 

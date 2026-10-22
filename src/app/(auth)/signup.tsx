@@ -42,7 +42,7 @@ const SignUpScreen = () => {
 
 
   const toLoginScreen = () => {
-    router.push("/(auth)/login");
+    router.replace("/(auth)/login");
   };
 
   return (
