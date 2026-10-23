@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "PREMIUM",
+    "name": "Premium",
     "slug": "myapp",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -29,7 +29,7 @@
         {
           "backgroundColor": "#000",
           "image": "./assets/adaptive-icon.png",
-          "imageWidth": 76
+          "imageWidth":200
         }
       ],
       "expo-secure-store",
