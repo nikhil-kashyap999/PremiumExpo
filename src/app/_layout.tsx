@@ -22,6 +22,10 @@ export default function RootLayout() {
   }, []);
 
   useEffect(() => {
+    if (error) createToast(`Failed to process DB migrations`);
+  }, [error]);
+
+  useEffect(() => {
     if (isLoading) return;
 
     const inAuthGroup = segments[0] === "(auth)";
@@ -33,7 +37,6 @@ export default function RootLayout() {
     }
   }, [isLoading, isAuthenticated, segments]);
 
-  if (error) createToast(`Migrations error : ${error}`);
   if (isLoading || !success) return <AuthSaplash />;
   return <Slot />;
 }
