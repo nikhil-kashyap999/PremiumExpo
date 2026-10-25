@@ -22,12 +22,11 @@ export default function ChatScreenHeader({
   participant: ContactType;
 }) {
   const router = useRouter();
-  const {handleDeleteAllMessages:onClearChat} = useChatRoom()
+  const { handleDeleteAllMessages: onClearChat } = useChatRoom();
   const showDropDown = useDropDown((s) => s.showDropDown);
   const isActive = !!participant?.isActive;
   const progress = useSharedValue(isActive ? 1 : 0); // 0 = offline, 1 = online
   const pulse = useSharedValue(1);
-
 
   useEffect(() => {
     progress.value = withTiming(isActive ? 1 : 0, {
@@ -79,16 +78,16 @@ export default function ChatScreenHeader({
     router.back();
   };
   return (
-    <View className="w-screen h-16 items-center flex-row justify-between">
+    <View className="w-screen max-h-20 items-center flex-row justify-between px-2 mb-3">
       <TouchableOpacity
-        className="h-full px-3 flex justify-center"
+        className="h-14 w-14 rounded-full px-3 flex justify-center items-center bg-neutral-700 "
         onPress={back}
       >
         <Ionicons name="arrow-back" size={24} color="white" />
       </TouchableOpacity>
-      <View className="h-full flex-1 justify-center px-6 py-1">
-        <View className="self-center rounded-3xl flex-row px-1 py-1 items-center">
-          <View>
+      <View className="h-full flex-1 justify-center py-1 overflow-x-hidden">
+        <View className="self-center flex-row items-center rounded-full px-2 py-1 bg-neutral-700 max-w-[80%]">
+          <View className="w-14 h-14 bg-black items-center justify-center rounded-full shrink-0">
             <Image
               source={{ uri: participant?.avatarUrl }}
               style={{ width: 40, height: 40, borderRadius: 50 }}
@@ -97,9 +96,14 @@ export default function ChatScreenHeader({
               transition={200}
             />
           </View>
-          <View className="flex flex-col justify-center ml-2 mr-1">
-            <Text className="text-stone-200 font-bold text-center">
-              {participant?.username}
+
+          <View className="shrink ml-2 mr-1 justify-center">
+            <Text
+              className="text-stone-200 font-bold text-center"
+              numberOfLines={1}
+              ellipsizeMode="tail"
+            >
+              {participant.username ?? "Username"}
             </Text>
             <Animated.Text
               className="text-center text-sm font-bold"
@@ -111,7 +115,7 @@ export default function ChatScreenHeader({
         </View>
       </View>
       <TouchableOpacity
-        className="h-full px-3 justify-center"
+        className="h-14 w-14 rounded-full px-3 flex justify-center items-center bg-neutral-700"
         onPress={openMenu}
       >
         <MaterialCommunityIcons name="dots-vertical" size={24} color="white" />

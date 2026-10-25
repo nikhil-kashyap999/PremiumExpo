@@ -27,7 +27,7 @@ export default function MessageInput() {
         <View className="w-full h-20">
           <Animated.View
             entering={FadeInDown.springify().damping(18).stiffness(140)}
-            className="w-11/12 h-full bg-neutral-900 border border-neutral-800 mx-auto rounded-2xl flex flex-row overflow-hidden"
+            className="w-11/12 h-full bg-neutral-700 border border-neutral-600 mx-auto rounded-2xl flex flex-row overflow-hidden"
           >
             <TextInput
               value={text}
@@ -38,14 +38,14 @@ export default function MessageInput() {
             />
             <View className="px-2 flex justify-center">
               <TouchableOpacity
-                className="w-14 h-14 rounded-full justify-center items-center"
+                className="w-14 h-14 rounded-full justify-center items-center bg-black"
                 onPress={handleSendMessage}
                 disabled={!text}
               >
                 <Ionicons
                   name="send"
                   size={25}
-                  color={text ? "gray" : "black"}
+                  color="white"
                 />
               </TouchableOpacity>
             </View>
