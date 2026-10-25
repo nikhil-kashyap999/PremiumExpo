@@ -97,7 +97,7 @@ export default function ChatScreenHeader({
             />
           </View>
 
-          <View className="shrink ml-2 mr-1 justify-center">
+          <View className="shrink ml-2 mr-1 justify-center pr-2">
             <Text
               className="text-stone-200 font-bold text-center"
               numberOfLines={1}
