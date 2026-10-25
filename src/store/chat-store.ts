@@ -11,7 +11,7 @@ import { getConversationId, toMillis } from "@/utils/chat-store.utils";
 
 type DefualtProp = {
   messages: NewMessage[];
-  cleanMessages: () => void;
+  clearMessages: () => void;
   setMessage: (msg: NewMessage) => void;
   setBulkMessags: (msg: NewMessage[]) => void;
   handleIncomingMessage: (msg: IncomingMessageType) => void;
@@ -24,7 +24,7 @@ export const ChatRoomStore = create<DefualtProp>((set, get) => ({
   messages: [],
   setMessage: (newMsg) =>
     set((state) => ({ messages: [...state.messages, newMsg] })),
-  cleanMessages: () => {
+  clearMessages: () => {
     set({ messages: [] });
   },
   setBulkMessags: (msg) => set({ messages: msg ?? [] }),
@@ -75,7 +75,7 @@ export const ChatRoomStore = create<DefualtProp>((set, get) => ({
     useLoadingModel.getState().showLoadingModal();
     try {
       const res = await deleteAllMessages(conversationId);
-      get().setBulkMessags([]);
+      get().clearMessages();
       if (res.changes > 0) useToast.getState().createToast("Messages Deleted");
     } catch (error) {
       useToast.getState().createToast("Faild to delete messages");
@@ -85,5 +85,5 @@ export const ChatRoomStore = create<DefualtProp>((set, get) => ({
   },
   updateMessageStatus: (msgid, status) => (set(s => {
     return { messages: s.messages.map(m => m.id === msgid ? { ...m, status } : m) }
-  }))
+  })),
 }));

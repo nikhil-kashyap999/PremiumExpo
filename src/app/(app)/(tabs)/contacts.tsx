@@ -16,12 +16,20 @@ import Animated, {
 import Feather from "@expo/vector-icons/Feather";
 import { useToast } from "@/store/toast-store";
 import MCI from "@expo/vector-icons/MaterialCommunityIcons";
+import { getConversationId } from "@/utils/chat-store.utils";
+import { useAuthStore } from "@/store/auth-store";
+import { ChatRoomStore } from "@/store/chat-store";
+import { Items } from "@expo/ui/jetpack-compose";
 
 export default function ContactsScreen() {
   const router = useRouter();
   const [refreshing, setRefreshing] = useState(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const userid: string | undefined = useAuthStore((s) => s.user?.id);
   const { loadingContacts, fetchContacts, contacts } = useFetchContacts();
+  const deleteAllMessagesFromStorage = ChatRoomStore(
+    (s) => s.deleteAllMessagesFromStorage,
+  );
 
   const clickable = useRef<boolean>(true);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -41,6 +49,11 @@ export default function ContactsScreen() {
     setRefreshing(true);
     await fetchContacts();
     setRefreshing(false);
+  };
+  const handleClearMessages = (participantid: string) => {
+    if (!userid || !participantid) return;
+    const conid = getConversationId(userid, participantid);
+    deleteAllMessagesFromStorage(conid);
   };
 
   useEffect(() => {
@@ -95,8 +108,7 @@ export default function ContactsScreen() {
                 menuOptions={[
                   {
                     label: "Clear chat",
-                    onPress: () =>
-                      useToast.getState().createToast("In development"),
+                    onPress: () => handleClearMessages(item._id),
                   },
                   {
                     label: "Remove",
