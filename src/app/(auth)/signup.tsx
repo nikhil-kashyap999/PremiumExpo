@@ -37,9 +37,8 @@ const SignUpScreen = () => {
     errors,
     selectedAvatar,
     onSelectAvatar,
-    isLoading
+    isLoading,
   } = useSignupForm();
-
 
   const toLoginScreen = () => {
     router.replace("/(auth)/login");
@@ -114,13 +113,14 @@ const SignUpScreen = () => {
             </TouchableOpacity>
           </View>
         </View>
-        <View style={styles.footer}>
-          <Text style={styles.footerText}>Already have an account? </Text>
-          <TouchableOpacity onPress={toLoginScreen}>
-            <Text style={styles.signUpText}>Sign In</Text>
-          </TouchableOpacity>
-        </View>
       </KeyboardAvoidingView>
+      
+      <View style={styles.footer}>
+        <Text style={styles.footerText}>Already have an account? </Text>
+        <TouchableOpacity onPress={toLoginScreen}>
+          <Text style={styles.signUpText}>Sign In</Text>
+        </TouchableOpacity>
+      </View>
 
       <AvatarModal
         isModalVisible={showAvatarModal}

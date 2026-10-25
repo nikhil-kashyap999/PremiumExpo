@@ -27,9 +27,8 @@ export default function ChatScreen() {
       <CustomStatusBar />
       <ChatScreenHeader participant={participant} />
       <MessagesContainer />
-      <View className="w-full relative h-24 mb-5 items-center justify-center">
+
         <MessageInput />
-      </View>
     </SafeAreaView>
   );
 }

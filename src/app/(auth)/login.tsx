@@ -7,7 +7,7 @@ import {
   KeyboardAvoidingView,
   ActivityIndicator,
 } from "react-native";
-import { useState} from "react";
+import { useState } from "react";
 import CustomStatusBar from "@/components/status-bar";
 import { SafeAreaView } from "react-native-safe-area-context";
 import InputField from "@/components/ui/InputFields/InputField";
@@ -118,13 +118,13 @@ const LoginScreen = () => {
             </TouchableOpacity>
           </View>
         </View>
-        <View style={styles.footer}>
-          <Text style={styles.footerText}>Don't have an account? </Text>
-          <TouchableOpacity onPress={toSignupScreen}>
-            <Text style={styles.signUpText}>Sign Up</Text>
-          </TouchableOpacity>
-        </View>
       </KeyboardAvoidingView>
+      <View style={styles.footer}>
+        <Text style={styles.footerText}>Don't have an account? </Text>
+        <TouchableOpacity onPress={toSignupScreen}>
+          <Text style={styles.signUpText}>Sign Up</Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 };
