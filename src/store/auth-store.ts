@@ -20,6 +20,7 @@ type AuthState = {
   signup: (
     formData: SignUpFormDataType,
   ) => Promise<{ isSuccess: boolean; message: string } | undefined>;
+  removeParticipant: () => void;
 };
 
 export const useAuthStore = create<AuthState>((set) => ({
@@ -99,4 +100,5 @@ export const useAuthStore = create<AuthState>((set) => ({
       }
     }
   },
+  removeParticipant: () => set({ participant: null }),
 }));

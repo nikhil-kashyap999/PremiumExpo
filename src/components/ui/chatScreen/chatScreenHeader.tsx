@@ -1,5 +1,7 @@
 import useChatRoom from "@/hooks/useChatRoom";
 import { ContactType } from "@/hooks/useFetchContacts";
+import { useAuthStore } from "@/store/auth-store";
+import { ChatRoomStore } from "@/store/chat-store";
 import { useDropDown } from "@/store/dropDown-store";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
@@ -27,6 +29,7 @@ export default function ChatScreenHeader({
   const isActive = !!participant?.isActive;
   const progress = useSharedValue(isActive ? 1 : 0); // 0 = offline, 1 = online
   const pulse = useSharedValue(1);
+  const removeParticipant = useAuthStore(s=>s.removeParticipant);
 
   useEffect(() => {
     progress.value = withTiming(isActive ? 1 : 0, {
@@ -75,6 +78,7 @@ export default function ChatScreenHeader({
     ]);
   };
   const back = () => {
+    removeParticipant();
     router.back();
   };
   return (
