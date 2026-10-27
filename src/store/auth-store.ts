@@ -33,10 +33,12 @@ export const useAuthStore = create<AuthState>((set) => ({
     set({ participant: participant }),
 
   login: async (
-    username: string,
-    password: string,
+    u: string,
+    p: string,
   ): Promise<string | undefined> => {
     try {
+      const username: string = u.trim();
+      const password: string = p.trim();
       const { data } = await axiosApi.post("/api/auth/login", { username, password });
       const user: User = {
         id: data.user._id,

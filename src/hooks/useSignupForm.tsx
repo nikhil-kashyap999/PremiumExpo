@@ -96,10 +96,10 @@ export default function useSignupForm() {
       setIsLoading(true);
       if (formData && selectedAvatar) {
         const res = await signup({
-          username: formData.username,
-          email: formData.email,
-          password: formData.password,
-          avatarUrl: selectedAvatar.avatarSrc,
+          username: formData.username.trim(),
+          email: formData.email.trim(),
+          password: formData.password.trim(),
+          avatarUrl: selectedAvatar.avatarSrc.trim(),
         });
         if (res?.isSuccess) {
           createToast(res?.message ?? "Form submitted successfully");

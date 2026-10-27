@@ -21,7 +21,7 @@ interface InputFieldProps extends Omit<
   iconType?: IconName;
   valueError?: string;
   setValueError?: (err: string) => void;
-  customStyles?: StyleProp<ViewStyle>;
+  customStyles?:string;
 }
 
 const InputField = ({
@@ -40,7 +40,7 @@ const InputField = ({
   };
 
   return (
-    <View style={[styles.inputContainer, customStyles]}>
+    <View style={[styles.inputContainer]} className={`${customStyles}`}>
       <View style={[styles.inputWrapper, !!valueError && styles.inputError]}>
         {iconType && (
           <Icon
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
     height: 56,
     borderWidth: 1,
     borderColor: "#404040",
-    backgroundColor:"#171717"
+    backgroundColor: "#171717",
   },
   inputError: { borderColor: "red" },
   inputIcon: { marginRight: 12 },

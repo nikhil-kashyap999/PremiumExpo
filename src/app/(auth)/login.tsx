@@ -33,10 +33,11 @@ const LoginScreen = () => {
     passwordFieldError: "",
   });
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
-
-  const toSignupScreen = () => {
-    router.replace("/(auth)/signup");
+  const handleNavigation = {
+    toSingup: () => router.replace("/(auth)/signup"),
+    toForgetPassword: () => router.push("/(auth)/forget-password"),
   };
+
 
   const handleLogin = async () => {
     setLoading(true);
@@ -97,7 +98,7 @@ const LoginScreen = () => {
               setIsPasswordVisible={setIsPasswordVisible}
             />
 
-            <TouchableOpacity style={styles.forgotPasswordContainer}>
+            <TouchableOpacity style={styles.forgotPasswordContainer} onPress={handleNavigation.toForgetPassword}>
               <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
             </TouchableOpacity>
 
@@ -121,7 +122,7 @@ const LoginScreen = () => {
       </KeyboardAvoidingView>
       <View style={styles.footer}>
         <Text style={styles.footerText}>Don't have an account? </Text>
-        <TouchableOpacity onPress={toSignupScreen}>
+        <TouchableOpacity onPress={handleNavigation.toSingup}>
           <Text style={styles.signUpText}>Sign Up</Text>
         </TouchableOpacity>
       </View>
