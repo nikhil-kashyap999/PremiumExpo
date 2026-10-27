@@ -21,7 +21,7 @@ import { useAuthStore } from "@/store/auth-store";
 import { ChatRoomStore } from "@/store/chat-store";
 import { Items } from "@expo/ui/jetpack-compose";
 
-export default function ContactsScreen() {
+export default function ChatsScreen() {
   const router = useRouter();
   const [refreshing, setRefreshing] = useState(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -66,7 +66,7 @@ export default function ContactsScreen() {
   return (
     <SafeAreaView className="flex-1">
       <CustomStatusBar />
-      <Header title="Contacts" />
+      <Header title="Chats" />
       <Animated.View
         entering={FadeInDown.duration(400)}
         className={"py-2 px-2"}

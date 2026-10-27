@@ -33,7 +33,7 @@ export default function RootLayout() {
     if (!isAuthenticated && !inAuthGroup) {
       router.replace("/(auth)/auth");
     } else if (isAuthenticated && inAuthGroup) {
-      router.replace("/(app)/(tabs)/contacts");
+      router.replace("/(app)/(tabs)/chats");
     }
   }, [isLoading, isAuthenticated, segments]);
 

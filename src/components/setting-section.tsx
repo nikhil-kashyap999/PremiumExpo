@@ -4,9 +4,7 @@ import { useRouter } from "expo-router";
 
 export default function SettingSection({ heading }: { heading?: string }) {
   const router = useRouter();
-  const onPressHandler = () => {
-    router.push({ pathname: "/testScreen" });
-  };
+  const onPressHandler = () => {};
   return (
     <View>
       {heading && (
@@ -18,7 +16,6 @@ export default function SettingSection({ heading }: { heading?: string }) {
           title="Notifications"
           icon={"notifications"}
           subtitle="Notifications related settings"
-          onPress={onPressHandler}
         />
         <SectionItem
           title="Privacy & Security"

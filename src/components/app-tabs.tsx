@@ -11,11 +11,11 @@ export default function AppTabs() {
     <NativeTabs
       backgroundColor={colors.background}
       indicatorColor={colors.backgroundElement}
-      labelStyle={{ selected: { color: "skyblue" } }}
+      labelStyle={{ selected: { color: "white" } }}
     >
-      <NativeTabs.Trigger name="contacts">
-        <NativeTabs.Trigger.Label>Contacts</NativeTabs.Trigger.Label>
-        <NativeTabs.Trigger.Icon md={"contacts_product"} />
+      <NativeTabs.Trigger name="chats">
+        <NativeTabs.Trigger.Label>Chats</NativeTabs.Trigger.Label>
+        <NativeTabs.Trigger.Icon md={"forum"} />
       </NativeTabs.Trigger>
 
       <NativeTabs.Trigger name="requests">
