@@ -4,6 +4,7 @@ import { ErrorsType } from "@/app/(auth)/signup";
 import { useAuthStore } from "@/store/auth-store";
 import { useToast } from "@/store/toast-store";
 import { useRouter } from "expo-router";
+import { validateEmail } from "@/utils/SignupForm.utils";
 
 export type SignUpFormDataType = {
   username: string;
@@ -31,10 +32,6 @@ export default function useSignupForm() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [selectedAvatar, setSelectedAvatar] = useState<AvatarType | null>(null);
 
-  const validateEmail = (email: string) => {
-    const re = /\S+@\S+\.\S+/;
-    return re.test(email);
-  };
 
   const validateForm = () => {
     setErrors({});

@@ -2,7 +2,7 @@ import axios from "axios";
 import { create } from "zustand";
 import { Alert } from "react-native";
 import { axiosApi } from "@/services/axiosApi";
-import { TokenStorage } from "@/utils/secure-storage";
+import { TokenStorage } from "@/utils/secure-storage.utils";
 import { ContactType } from "@/hooks/useFetchContacts";
 import { SignUpFormDataType } from "@/hooks/useSignupForm";
 
@@ -50,7 +50,8 @@ export const useAuthStore = create<AuthState>((set) => ({
       set({ user: user, isAuthenticated: true });
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        return error.response?.data?.message;
+        console.log(error.response?.data);
+        return error.response?.data?.message ?? "Falied to sent request";
       }
     }
   },

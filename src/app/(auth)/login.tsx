@@ -15,6 +15,8 @@ import PasswordField from "@/components/ui/InputFields/PasswordField";
 import { useAuthStore } from "@/store/auth-store";
 import { useMessageModal } from "@/store/messageModal-store";
 import { useRouter } from "expo-router";
+import axios from "axios";
+import { useToast } from "@/store/toast-store";
 
 type InputErrorType = {
   usernameFieldError?: string;
@@ -24,6 +26,7 @@ type InputErrorType = {
 const LoginScreen = () => {
   const router = useRouter();
   const login = useAuthStore((s) => s.login);
+  const createToast = useToast((s) => s.createToast);
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
@@ -37,7 +40,6 @@ const LoginScreen = () => {
     toSingup: () => router.replace("/(auth)/signup"),
     toForgetPassword: () => router.push("/(auth)/forget-password"),
   };
-
 
   const handleLogin = async () => {
     setLoading(true);
@@ -60,7 +62,10 @@ const LoginScreen = () => {
       }
       const resError = await login(username, password);
       if (resError) createMessage(resError);
-    } catch (err) {
+    } catch (e) {
+      if (axios.isAxiosError(e)) {
+        createToast(e.response?.data.message ?? "Falid to sent request");
+      }
     } finally {
       setLoading(false);
     }
@@ -98,7 +103,10 @@ const LoginScreen = () => {
               setIsPasswordVisible={setIsPasswordVisible}
             />
 
-            <TouchableOpacity style={styles.forgotPasswordContainer} onPress={handleNavigation.toForgetPassword}>
+            <TouchableOpacity
+              style={styles.forgotPasswordContainer}
+              onPress={handleNavigation.toForgetPassword}
+            >
               <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
             </TouchableOpacity>
 

@@ -62,6 +62,7 @@ export default function ChatsScreen() {
       if (timer.current) clearTimeout(timer.current);
     };
   }, []);
+  console.log(contacts);
 
   return (
     <SafeAreaView className="flex-1">
@@ -83,7 +84,7 @@ export default function ChatsScreen() {
         </View>
       </Animated.View>
       <IfContactEmpty show={contacts.length === 0 ? true : false} />
-      {contacts && (
+      {/* {contacts && (
         <FlatList
           data={filteredContacts}
           showsVerticalScrollIndicator={false}
@@ -129,7 +130,7 @@ export default function ChatsScreen() {
           }
           className="mt-3"
         />
-      )}
+      )} */}
       {loadingContacts && <ContactLoadingAnimation />}
     </SafeAreaView>
   );

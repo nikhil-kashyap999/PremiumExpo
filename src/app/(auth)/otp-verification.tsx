@@ -14,7 +14,7 @@ import {
 import Entypo from "@expo/vector-icons/Entypo";
 import { isAxiosError } from "axios";
 import { axiosApi } from "@/services/axiosApi";
-import { TokenStorage } from "@/utils/secure-storage";
+import { TokenStorage } from "@/utils/secure-storage.utils";
 import { useToast } from "@/store/toast-store";
 
 type Prop = { onVerify: () => void; length: number; autoSubmit: boolean };

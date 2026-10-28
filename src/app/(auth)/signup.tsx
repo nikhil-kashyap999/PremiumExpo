@@ -114,7 +114,7 @@ const SignUpScreen = () => {
           </View>
         </View>
       </KeyboardAvoidingView>
-      
+
       <View style={styles.footer}>
         <Text style={styles.footerText}>Already have an account? </Text>
         <TouchableOpacity onPress={toLoginScreen}>

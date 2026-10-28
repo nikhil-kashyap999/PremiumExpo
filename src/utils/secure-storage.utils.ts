@@ -5,6 +5,12 @@ export const TokenStorage = {
     await SecureStorage.setItemAsync("accessToken", accessToken);
     await SecureStorage.setItemAsync("refreshToken", refreshToken);
   },
+  async setAccessToken(accessToken: string) {
+    await SecureStorage.setItemAsync("accessToken", accessToken);
+  },
+  async clearAccessToken() {
+    await SecureStorage.deleteItemAsync("accessToken");
+  },
   async getAccessToken() {
     return SecureStorage.getItemAsync("accessToken");
   },

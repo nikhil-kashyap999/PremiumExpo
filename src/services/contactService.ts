@@ -1,5 +1,5 @@
 import { ContactType } from "@/hooks/useFetchContacts";
-import { contactStorage } from "@/utils/contacts-storage";
+import { contactStorage } from "@/utils/contacts-storage.utils";
 
 export const filterContacts = (
   searchQuery: string,

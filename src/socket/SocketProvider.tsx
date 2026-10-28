@@ -15,6 +15,5 @@ export function SocketProvider({ children }: { children: React.ReactNode }) {
       socket.disconnect();
     };
   }, [isAuthenticated]);
-
   return <>{children}</>;
 }

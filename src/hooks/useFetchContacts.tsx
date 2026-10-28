@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { axiosApi } from "@/services/axiosApi";
 import { ContactStore } from "@/store/contacts-store";
-import { contactStorage } from "@/utils/contacts-storage";
+import { contactStorage } from "@/utils/contacts-storage.utils";
 
 export type ContactType = {
   _id: string;
