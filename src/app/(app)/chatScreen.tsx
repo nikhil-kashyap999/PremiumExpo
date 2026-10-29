@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import MessageInput from "@/components/messageInput";
 import CustomStatusBar from "@/components/status-bar";
 import { dummyContact } from "@/constants/dummyContact";
-import { View } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import DropDown from "@/components/drop-down";
@@ -27,8 +26,7 @@ export default function ChatScreen() {
       <CustomStatusBar />
       <ChatScreenHeader participant={participant} />
       <MessagesContainer />
-
-        <MessageInput />
+      <MessageInput />
     </SafeAreaView>
   );
 }

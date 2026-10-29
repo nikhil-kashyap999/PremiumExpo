@@ -90,11 +90,11 @@ export default function ChatScreenHeader({
         <Ionicons name="arrow-back" size={24} color="white" />
       </TouchableOpacity>
       <View className="h-full flex-1 justify-center py-1 overflow-x-hidden">
-        <View className="self-center flex-row items-center rounded-full px-2 py-1 bg-neutral-700 max-w-[80%]">
-          <View className="w-14 h-14 bg-black items-center justify-center rounded-full shrink-0">
+        <View className="self-center flex-row items-center rounded-full px-1 py-1 bg-neutral-700 max-w-[80%]">
+          <View className="w-12 h-12 bg-black items-center justify-center rounded-full shrink-0">
             <Image
               source={{ uri: participant?.avatarUrl }}
-              style={{ width: 40, height: 40, borderRadius: 50 }}
+              style={{ width: 35, height: 35, borderRadius: 50 }}
               contentFit="cover"
               placeholder={require("@/assets/images/default-avatar.png")}
               transition={200}
