@@ -94,7 +94,7 @@ export default function requests() {
           </Animated.View>
         </View>
       )}
-      {results.length > 0 && (
+      {results.length > 0 && !loading && (
         <FlatList
           data={results}
           keyExtractor={(c: RequestsType) => c.sender._id}

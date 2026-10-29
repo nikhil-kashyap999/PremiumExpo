@@ -19,7 +19,6 @@ import MCI from "@expo/vector-icons/MaterialCommunityIcons";
 import { getConversationId } from "@/utils/chat-store.utils";
 import { useAuthStore } from "@/store/auth-store";
 import { ChatRoomStore } from "@/store/chat-store";
-import { Items } from "@expo/ui/jetpack-compose";
 
 export default function ChatsScreen() {
   const router = useRouter();
@@ -30,9 +29,10 @@ export default function ChatsScreen() {
   const deleteAllMessagesFromStorage = ChatRoomStore(
     (s) => s.deleteAllMessagesFromStorage,
   );
-
   const clickable = useRef<boolean>(true);
+  const filteredContacts = filterContacts(searchQuery, contacts);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const hasContacts = (contacts?.length ?? 0) > 0;
 
   const onContactClick = (id: string) => {
     if (!clickable.current) return;
@@ -42,8 +42,6 @@ export default function ChatsScreen() {
       clickable.current = true;
     }, 1000);
   };
-
-  const filteredContacts = filterContacts(searchQuery, contacts);
 
   const onRefresh = async () => {
     setRefreshing(true);
@@ -57,12 +55,10 @@ export default function ChatsScreen() {
   };
 
   useEffect(() => {
-    fetchContacts();
     return () => {
       if (timer.current) clearTimeout(timer.current);
     };
   }, []);
-  console.log(contacts);
 
   return (
     <SafeAreaView className="flex-1">
@@ -83,12 +79,11 @@ export default function ChatsScreen() {
           />
         </View>
       </Animated.View>
-      <IfContactEmpty show={contacts.length === 0 ? true : false} />
-      {/* {contacts && (
+      {hasContacts ? (
         <FlatList
           data={filteredContacts}
           showsVerticalScrollIndicator={false}
-          keyExtractor={(contact: ContactType) => contact._id}
+          keyExtractor={(contact: ContactType) => contact && contact._id}
           renderItem={({
             item,
             index,
@@ -130,7 +125,9 @@ export default function ChatsScreen() {
           }
           className="mt-3"
         />
-      )} */}
+      ) : (
+        !loadingContacts && <IfContactEmpty />
+      )}
       {loadingContacts && <ContactLoadingAnimation />}
     </SafeAreaView>
   );
@@ -148,8 +145,7 @@ function ContactLoadingAnimation() {
   );
 }
 
-function IfContactEmpty({ show }: { show: boolean }) {
-  if (!show) return;
+function IfContactEmpty() {
   return (
     <View className="flex-1 justify-center">
       <Animated.View

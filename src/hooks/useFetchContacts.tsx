@@ -17,13 +17,13 @@ export default function useFetchContacts() {
   const contacts = ContactStore((s) => s.contacts);
   const setStorageContacts = ContactStore((s) => s.setContacts);
   const [loadingContacts, setLoadingContacts] = useState<boolean>(true);
-
   const fetchContacts = async () => {
     try {
       setLoadingContacts(true);
       const response = await axiosApi("/api/user/contacts");
-      setStorageContacts(response.data.res);
-      contactStorage.setContacts(response.data.res);
+      const list: ContactType[] = (response.data?.res ?? []).filter(Boolean);
+      setStorageContacts(list);
+      contactStorage.setContacts(list);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         setError(error.message);
