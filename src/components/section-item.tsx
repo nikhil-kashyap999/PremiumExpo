@@ -8,6 +8,7 @@ type PropType = {
   subtitle?: string;
   onPress?: () => void;
   isLast?: boolean;
+  disbaled?: boolean;
 };
 
 export default function SectionItem({
@@ -16,10 +17,12 @@ export default function SectionItem({
   subtitle,
   onPress,
   isLast = false,
+  disbaled = false,
 }: PropType) {
   return (
     <TouchableOpacity
       onPress={onPress}
+      disabled={disbaled}
       className={`flex-row items-center rounded-2xl p-4 flex-1 ${!isLast && "border-b-neutral-600"}`}
     >
       <View className="w-10 h-10 rounded-2xl justify-center items-center mr-4">
