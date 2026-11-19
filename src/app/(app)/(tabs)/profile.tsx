@@ -8,6 +8,7 @@ import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import SettingSection from "@/components/setting-section";
 import Icon from "@expo/vector-icons/MaterialIcons";
 import { useLoadingModel } from "@/store/loadingModal-store";
+import ThemeToggler from "@/components/theme-toggler";
 
 export default function profile() {
   const user = useAuthStore((s) => s.user);
@@ -65,6 +66,7 @@ export default function profile() {
           entering={FadeInDown.duration(800).springify().delay(200)}
         >
           <SettingSection heading="Settings" />
+          <ThemeToggler/>
         </Animated.View>
 
         <View className="w-full px-1">

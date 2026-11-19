@@ -1,6 +1,6 @@
 import React from "react";
-import { View, Text, TouchableOpacity } from "react-native";
 import Icon from "@expo/vector-icons/MaterialIcons";
+import { View, Text, TouchableOpacity } from "react-native";
 
 type PropType = {
   icon?: any;
@@ -20,7 +20,7 @@ export default function SectionItem({
   return (
     <TouchableOpacity
       onPress={onPress}
-      className={`flex-row items-center rounded-2xl p-4 ${!isLast && "border-b-neutral-600"}`}
+      className={`flex-row items-center rounded-2xl p-4 flex-1 ${!isLast && "border-b-neutral-600"}`}
     >
       <View className="w-10 h-10 rounded-2xl justify-center items-center mr-4">
         <Icon name={icon} size={25} color={"white"} />
