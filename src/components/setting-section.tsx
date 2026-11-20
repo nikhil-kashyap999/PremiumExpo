@@ -1,7 +1,9 @@
 import { View, Text } from "react-native";
 import SectionItem from "./section-item";
+import { useRouter } from "expo-router";
 
 export default function SettingSection({ heading }: { heading?: string }) {
+  const router = useRouter();
   return (
     <View>
       {heading && (
@@ -27,6 +29,7 @@ export default function SettingSection({ heading }: { heading?: string }) {
           title="Chat Setting"
           icon={"settings"}
           subtitle="Change chat related settings"
+          onPress={()=>router.push("/(app)/chatSettings")}
         />
         <SectionItem
           title="Help & Support"

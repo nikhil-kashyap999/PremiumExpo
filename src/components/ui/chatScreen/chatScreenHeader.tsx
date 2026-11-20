@@ -1,7 +1,6 @@
 import useChatRoom from "@/hooks/useChatRoom";
 import { ContactType } from "@/hooks/useFetchContacts";
 import { useAuthStore } from "@/store/auth-store";
-import { ChatRoomStore } from "@/store/chat-store";
 import { useDropDown } from "@/store/dropDown-store";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
