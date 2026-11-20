@@ -1,16 +1,18 @@
 import { useRef, useState } from "react";
 import SectionItem from "./section-item";
 import { Animated, TouchableOpacity, View } from "react-native";
+import { useTheme } from "@/store/theme-store";
 
 const TRAVEL = 30;
 
 export default function ThemeToggler() {
-  const [isDark, setIsDark] = useState(true);
+    const isDark = useTheme(s=>s.isDark);
+    const toggleThem = useTheme(s=>s.toggleTheme);
   const x = useRef(new Animated.Value(isDark ? TRAVEL : 0)).current;
 
   const toggle = () => {
     const next = !isDark;
-    setIsDark(next);
+    toggleThem();
     Animated.timing(x, {
       toValue: next ? TRAVEL : 0,
       duration: 180,

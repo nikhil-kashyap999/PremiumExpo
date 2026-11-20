@@ -9,8 +9,10 @@ import SettingSection from "@/components/setting-section";
 import Icon from "@expo/vector-icons/MaterialIcons";
 import { useLoadingModel } from "@/store/loadingModal-store";
 import ThemeToggler from "@/components/theme-toggler";
+import { useTheme } from "@/store/theme-store";
 
 export default function profile() {
+  const isDark = useTheme(s=>s.isDark);
   const user = useAuthStore((s) => s.user);
   const logoutMethod = useAuthStore((s) => s.logout);
   const stopLoadingModel = useLoadingModel((s) => s.stopLoadingModel);
@@ -23,7 +25,7 @@ export default function profile() {
   };
 
   return (
-    <SafeAreaView className="flex-1">
+    <SafeAreaView className={`flex-1 ${isDark?"bg-black":"bg-white"} duration-150`}>
       <CustomStatusBar />
       <Header title="Profile" />
       <View className="px-4">
