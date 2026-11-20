@@ -1,16 +1,9 @@
-import { useTheme } from "@/store/theme-store";
-import { useState } from "react";
-import { StatusBar } from "react-native";
+import { StatusBar } from "expo-status-bar";
+import { useColorScheme } from "nativewind"; // v5 mein: from "react-native"
 
 export default function CustomStatusBar() {
-  const [mode, setMode] = useState("dark");
-  const isDark = useTheme(s=>s.isDark);
-  return (
-    <>
-      <StatusBar
-        backgroundColor={isDark ? "#000" : "#f2f2f2"}
-        barStyle={isDark ? "light-content" : "dark-content"}
-      />
-    </>
-  );
+  const { colorScheme } = useColorScheme(); // v5: const colorScheme = useColorScheme();
+  const isDark = colorScheme === "dark";
+
+  return <StatusBar style={isDark ? "light" : "dark"} />;
 }

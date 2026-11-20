@@ -1,41 +1,55 @@
-import { useRef, useState } from "react";
-import SectionItem from "./section-item";
-import { Animated, TouchableOpacity, View } from "react-native";
-import { useTheme } from "@/store/theme-store";
+import { Pressable, Text, View } from "react-native";
+import { useThemeStore, type ThemeMode } from "@/store/theme-store";
+import Icon from "@expo/vector-icons/MaterialIcons";
 
-const TRAVEL = 30;
+const OPTIONS: { key: ThemeMode; label: string }[] = [
+  { key: "light", label: "Light" },
+  { key: "dark", label: "Dark" },
+  { key: "system", label: "System" },
+];
 
-export default function ThemeToggler() {
-    const isDark = useTheme(s=>s.isDark);
-    const toggleThem = useTheme(s=>s.toggleTheme);
-  const x = useRef(new Animated.Value(isDark ? TRAVEL : 0)).current;
-
-  const toggle = () => {
-    const next = !isDark;
-    toggleThem();
-    Animated.timing(x, {
-      toValue: next ? TRAVEL : 0,
-      duration: 180,
-      useNativeDriver: true,
-    }).start();
-  };
+export default function ThemeSelector() {
+  const mode = useThemeStore((s) => s.mode);
+  const setMode = useThemeStore((s) => s.setMode);
 
   return (
-    <View className="bg-neutral-800 rounded-2xl mb-4 flex flex-row overflow-hidden">
-      <SectionItem title="Theme" subtitle="Toggle app theme" icon={"light-mode"} disbaled={true}/>
-      <View className="max-h-min p-3 flex justify-center">
-        <TouchableOpacity
-          onPress={toggle}
-          activeOpacity={0.8}
-          className="w-16 bg-neutral-950 rounded-2xl border border-neutral-700 justify-center p-1"
-        >
-          <Animated.View
-            style={{ transform: [{ translateX: x }] }}
-            className={`w-5 h-5 rounded-full ${
-              isDark ? "bg-white" : "bg-neutral-500"
-            }`}
-          />
-        </TouchableOpacity>
+    <View className="rounded-xl bg-neutral-200 dark:bg-neutral-800 p-1 mb-4">
+      <View className="flex-row items-center px-3 mb-1">
+        <View className="w-10 h-10 rounded-2xl justify-center items-center mr-4">
+          <Icon name={"light"} size={25} color={mode==="dark"?"white":"black"} />
+        </View>
+        <View>
+          <Text className="text-black dark:text-white font-bold">
+            Change Theme
+          </Text>
+          <Text className="text-neutral-800 dark:text-neutral-500 mt-1 text-sm">
+            Switch to dark and light mode
+          </Text>
+        </View>
+      </View>
+      <View className="flex-row ">
+        {OPTIONS.map(({ key, label }) => {
+          const active = mode === key;
+          return (
+            <Pressable
+              key={key}
+              onPress={() => setMode(key)}
+              className={`flex-1 items-center rounded-lg py-2 ${
+                active ? "bg-white dark:bg-neutral-950" : ""
+              }`}
+            >
+              <Text
+                className={
+                  active
+                    ? "font-semibold text-black dark:text-white"
+                    : "text-neutral-500"
+                }
+              >
+                {label}
+              </Text>
+            </Pressable>
+          );
+        })}
       </View>
     </View>
   );

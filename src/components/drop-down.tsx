@@ -121,9 +121,8 @@ const styles = StyleSheet.create({
   },
   panel: {
     width: 150,
-    marginTop: 50,
+    marginTop: 100,
     right: 15,
-    // backgroundColor: "#fff",
     backgroundColor: "#2c2c2c",
     borderRadius: 12,
     paddingVertical: 10,

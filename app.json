@@ -29,13 +29,15 @@
         {
           "backgroundColor": "#000",
           "image": "./assets/adaptive-icon.png",
-          "imageWidth":200
+          "imageWidth": 200
         }
       ],
       "expo-secure-store",
       "expo-sqlite",
       "expo-image",
-      "expo-web-browser"
+      "expo-web-browser",
+      "expo-font",
+      "expo-status-bar"
     ],
     "experiments": {
       "typedRoutes": true,

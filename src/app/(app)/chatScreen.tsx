@@ -9,6 +9,7 @@ import { useAuthStore } from "@/store/auth-store";
 import { ContactStore } from "@/store/contacts-store";
 import ChatScreenHeader from "@/components/ui/chatScreen/chatScreenHeader";
 import { MessagesContainer } from "@/components/message-container";
+import { KeyboardAvoidingView, View } from "react-native";
 
 export default function ChatScreen() {
   const { id }: { id: string } = useLocalSearchParams();
@@ -21,12 +22,16 @@ export default function ChatScreen() {
   }, [contact, setParticipentInStore]);
 
   return (
-    <SafeAreaView className="flex-1 bg-black">
-      <DropDown />
+    <SafeAreaView className="flex-1 bg-white dark:bg-black">
       <CustomStatusBar />
-      <ChatScreenHeader participant={participant} />
-      <MessagesContainer />
-      <MessageInput />
+        <DropDown />
+      <KeyboardAvoidingView className="flex-1" behavior="padding">
+        <ChatScreenHeader participant={participant} />
+        <View className="flex-1">
+          <MessagesContainer />
+        </View>
+        <MessageInput />
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }

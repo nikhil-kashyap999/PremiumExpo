@@ -1,3 +1,4 @@
+import { useThemeStore } from "@/store/theme-store";
 import Entypo from "@expo/vector-icons/Entypo";
 import { useRef, useState } from "react";
 import {
@@ -43,18 +44,22 @@ export default function ContactCard({
   const dotsRef = useRef<View>(null);
   const cardRef = useRef<View>(null);
 
+  const mode = useThemeStore((s) => s.mode) === "dark" ? "white" : "black";
+
   const size = 42;
   const dotSize = size * 0.28;
 
-  const openMenu = (ref: React.RefObject<View | null>) => {
+  const openMenu = (ref: React.RefObject<View | React.Component | null>) => {
     if (menuOptions.length === 0) return;
-    ref.current?.measureInWindow((x, y, width, height) => {
-      const screenW = Dimensions.get("window").width;
-      let left = x + width - MENU_WIDTH;
-      left = Math.max(8, Math.min(left, screenW - MENU_WIDTH - 8));
-      setMenuPos({ top: y + height, left });
-      setMenuVisible(true);
-    });
+    (ref.current as any)?.measureInWindow(
+      (x: number, y: number, width: number, height: number) => {
+        const screenW = Dimensions.get("window").width;
+        let left = x + width - MENU_WIDTH;
+        left = Math.max(8, Math.min(left, screenW - MENU_WIDTH - 8));
+        setMenuPos({ top: y + height, left });
+        setMenuVisible(true);
+      },
+    );
   };
 
   const closeMenu = () => setMenuVisible(false);
@@ -67,10 +72,11 @@ export default function ContactCard({
         onPress={onPress}
         onLongPress={() => openMenu(cardRef)}
         delayLongPress={300}
-        style={[styles.container, customStyle]}
+        // style={[styles.container, customStyle]}
+        className={`${customStyle} flex-row items-center rounded-3xl mb-2 overflow-hidden`}
       >
         {/* Left Section: Avatar + Info */}
-        <View style={styles.left}>
+        <View className="px-3 py-2 flex-row items-center flex-1">
           <View style={{ width: size, height: size }}>
             <Image
               source={
@@ -95,24 +101,31 @@ export default function ContactCard({
               ]}
             />
           </View>
-          <View style={styles.info}>
-            <Text style={styles.name} numberOfLines={1}>
+          <View className="ml-3 flex-1">
+            <Text
+              className="text-lg font-bold dark:color-white color-black"
+              numberOfLines={1}
+            >
               {username}
             </Text>
-            <Text numberOfLines={1} ellipsizeMode="tail" style={styles.status}>
+            <Text
+              numberOfLines={1}
+              ellipsizeMode="tail"
+              className="itelic text-neutral-500"
+            >
               recent messages will appear here
             </Text>
           </View>
         </View>
 
         {/* Right Section: Three dots */}
-        <View style={styles.right}>
+        <View className="h-full flex-row items-center justify-end">
           <TouchableOpacity
             ref={dotsRef as any}
-            style={styles.verticalIconCon}
+            className="py-6 px-4 justify-center items-center"
             onPress={() => openMenu(dotsRef)}
           >
-            <Entypo name="dots-three-vertical" size={20} color="white" />
+            <Entypo name="dots-three-vertical" size={20} color={mode} />
           </TouchableOpacity>
         </View>
       </TouchableOpacity>
@@ -156,21 +169,6 @@ export default function ContactCard({
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flexDirection: "row",
-    alignItems: "center",
-    borderRadius: 25,
-    marginBottom: 10,
-    shadowRadius: 2,
-    overflow: "hidden",
-  },
-  left: {
-    paddingHorizontal: 12,
-    paddingVertical: 10,
-    flexDirection: "row",
-    alignItems: "center",
-    flex: 1,
-  },
   avatar: {
     backgroundColor: "gray",
   },
@@ -181,26 +179,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: "fff",
   },
-  info: { marginLeft: 12, flex: 1 },
-  name: { fontSize: 16, fontWeight: "600", color: "white" },
-  status: {
-    fontSize: 13,
-    fontWeight: "400",
-    color: "gray",
-    fontStyle: "italic",
-  },
-  right: {
-    height: "100%",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "flex-end",
-  },
-  verticalIconCon: {
-    paddingVertical: 25,
-    paddingHorizontal: 15,
-    justifyContent: "center",
-    alignItems: "center",
-  },
+
   backdrop: { flex: 1, backgroundColor: "rgba(0,0,0,0.5)" },
   menu: {
     position: "absolute",

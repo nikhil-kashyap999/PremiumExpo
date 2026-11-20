@@ -1,12 +1,7 @@
 import { useState } from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import Animated, { FadeInDown } from "react-native-reanimated";
-import {
-  KeyboardAvoidingView,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { TextInput, TouchableOpacity, View } from "react-native";
 import { ChatRoomStore } from "@/store/chat-store";
 import { useAuthStore } from "@/store/auth-store";
 
@@ -22,36 +17,30 @@ export default function MessageInput() {
   };
 
   return (
-    <KeyboardAvoidingView>
-      <View className="w-full relative h-24 mb-5 items-center justify-center">
-        <View className="w-full h-20">
-          <Animated.View
-            entering={FadeInDown.springify().damping(18).stiffness(140)}
-            className="w-11/12 h-full bg-neutral-700 border border-neutral-600 mx-auto rounded-2xl flex flex-row overflow-hidden"
-          >
-            <TextInput
-              value={text}
-              placeholder="Enter Message"
-              placeholderTextColor={"gray"}
-              onChangeText={(text) => setText(text)}
-              className="color-white px-4 h-full text-lg flex-1"
-            />
-            <View className="px-2 flex justify-center">
-              <TouchableOpacity
-                className="w-14 h-14 rounded-full justify-center items-center bg-black"
-                onPress={handleSendMessage}
-                disabled={!text}
-              >
-                <Ionicons
-                  name="send"
-                  size={25}
-                  color="white"
-                />
-              </TouchableOpacity>
-            </View>
-          </Animated.View>
-        </View>
+    <View className="w-full relative h-24 mb-5 items-center justify-center">
+      <View className="w-full h-20">
+        <Animated.View
+          entering={FadeInDown.springify().damping(18).stiffness(140)}
+          className="w-full h-full mx-auto rounded-2xl flex flex-row gap-2 overflow-hidden px-2"
+        >
+          <TextInput
+            value={text}
+            placeholder="Enter Message"
+            placeholderTextColor={"gray"}
+            onChangeText={(text) => setText(text)}
+            className="color-white px-4 h-auto text-lg flex-1 bg-neutral-700 border border-neutral-600 my-2 rounded-full"
+          />
+          <View className="flex justify-center">
+            <TouchableOpacity
+              className="w-14 h-14 rounded-full justify-center items-center bg-neutral-700"
+              onPress={handleSendMessage}
+              disabled={!text}
+            >
+              <Ionicons name="send" size={25} color="white" />
+            </TouchableOpacity>
+          </View>
+        </Animated.View>
       </View>
-    </KeyboardAvoidingView>
+    </View>
   );
 }

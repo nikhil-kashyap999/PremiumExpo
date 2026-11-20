@@ -8,11 +8,9 @@ import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import SettingSection from "@/components/setting-section";
 import Icon from "@expo/vector-icons/MaterialIcons";
 import { useLoadingModel } from "@/store/loadingModal-store";
-import ThemeToggler from "@/components/theme-toggler";
-import { useTheme } from "@/store/theme-store";
+import ThemeSelector from "@/components/theme-toggler";
 
 export default function profile() {
-  const isDark = useTheme(s=>s.isDark);
   const user = useAuthStore((s) => s.user);
   const logoutMethod = useAuthStore((s) => s.logout);
   const stopLoadingModel = useLoadingModel((s) => s.stopLoadingModel);
@@ -25,11 +23,11 @@ export default function profile() {
   };
 
   return (
-    <SafeAreaView className={`flex-1 ${isDark?"bg-black":"bg-white"} duration-150`}>
+    <SafeAreaView className={`flex-1 bg-white dark:bg-black  duration-150`}>
       <CustomStatusBar />
       <Header title="Profile" />
       <View className="px-4">
-        <View className="w-full mt-1 max-h-20 py-2 border border-neutral-700 rounded-2xl px-3 flex-row items-center bg-neutral-800 mb-2">
+        <View className="w-full mt-1 max-h-20 py-3 dark:border dark:border-neutral-700 rounded-2xl px-3 flex-row items-center bg-neutral-300 dark:bg-neutral-800 mb-2">
           <Image
             source={{ uri: user?.avatarUrl }}
             style={{ width: 40, height: 40, borderRadius: 50 }}
@@ -40,7 +38,7 @@ export default function profile() {
           {!user ? (
             <View className="flex-1 h-full px-4 justify-center">
               <TouchableOpacity>
-                <Text className="font-bold text-lg text-stone-200 italic">
+                <Text className="font-bold text-lg text-black dark:text-stone-200 italic">
                   Click to login
                 </Text>
               </TouchableOpacity>
@@ -50,11 +48,18 @@ export default function profile() {
             </View>
           ) : (
             <View className="flex-1 h-full px-4 justify-center">
-              <Text className="font-semibold text-stone-200">
-                {user.username}
+              <View className="flex-1 justify-between flex-row">
+                <Text
+                  className="font-bold text-black dark:text-white inline-block max-w-[85%]"
+                  numberOfLines={1}
+                >
+                  {user.username}
+                </Text>
+                <Text className="font-bold text-sm text-sky-500">online</Text>
+              </View>
+              <Text className="dark:text-white text-black font-semibold">
+                {user.email}
               </Text>
-              <Text className="text-stone-200">{user.email}</Text>
-              <Text className="font-bold text-sm text-sky-500">online</Text>
             </View>
           )}
         </View>
@@ -68,12 +73,12 @@ export default function profile() {
           entering={FadeInDown.duration(800).springify().delay(200)}
         >
           <SettingSection heading="Settings" />
-          <ThemeToggler/>
+          <ThemeSelector />
         </Animated.View>
 
         <View className="w-full px-1">
           <TouchableOpacity
-            className="bg-neutral-800 rounded-xl py-4 px-4 flex-row justify-between items-center"
+            className="dark:bg-neutral-800 bg-neutral-200 rounded-xl py-4 px-4 flex-row justify-between items-center"
             onPress={logout}
           >
             <Text className="text-center font-bold text-red-600">Logout</Text>

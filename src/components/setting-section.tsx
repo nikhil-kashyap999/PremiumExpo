@@ -1,23 +1,18 @@
 import { View, Text } from "react-native";
 import SectionItem from "./section-item";
-import { useRouter } from "expo-router";
-import { useTheme } from "@/store/theme-store";
 
 export default function SettingSection({ heading }: { heading?: string }) {
-  const isDark = useTheme((s) => s.isDark);
-  const router = useRouter();
-  const onPressHandler = () => {};
   return (
     <View>
       {heading && (
-        <Text
-          className={`text-lg font-bold mb-4 ${isDark?"text-white":"text-black"}`}
-        >
+        <Text className={`text-lg font-bold mb-4 text-black dark:text-white`}>
           {heading}
         </Text>
       )}
 
-      <View className="rounded-2xl mb-4 overflow-hidden bg-neutral-800">
+      <View
+        className={`rounded-2xl mb-4 overflow-hidden bg-neutral-200 dark:bg-neutral-800`}
+      >
         <SectionItem
           title="Notifications"
           icon={"notifications"}

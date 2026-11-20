@@ -7,8 +7,15 @@ import migrations from "../../drizzle/migrations";
 import { Slot, useRouter, useSegments } from "expo-router";
 import { useMigrations } from "drizzle-orm/expo-sqlite/migrator";
 import { useToast } from "@/store/toast-store";
+import { applyTheme } from "@/services/theme-mode";
+import { useThemeStore } from "@/store/theme-store";
+import useThemeHook from "@/hooks/use-theme";
+
+// apply saved theme before renderRootComponent, so that flash doesn't happen
+applyTheme(useThemeStore.getState().mode);
 
 export default function RootLayout() {
+  useThemeHook();
   const router = useRouter();
   const segments = useSegments();
   const createToast = useToast((s) => s.createToast);
