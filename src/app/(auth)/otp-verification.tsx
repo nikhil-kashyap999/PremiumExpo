@@ -1,28 +1,27 @@
+import { axiosApi } from "@/services/axiosApi";
 import { useLoadingModel } from "@/store/loadingModal-store";
 import { useMessageModal } from "@/store/messageModal-store";
-import { useRouter } from "expo-router";
-import { useState, useRef, useEffect } from "react";
-import {
-  View,
-  TextInput,
-  Text,
-  TouchableOpacity,
-  Keyboard,
-  NativeSyntheticEvent,
-  TextInputKeyPressEventData,
-} from "react-native";
+import { useToast } from "@/store/toast-store";
+import { TokenStorage } from "@/utils/secure-storage.utils";
 import Entypo from "@expo/vector-icons/Entypo";
 import { isAxiosError } from "axios";
-import { axiosApi } from "@/services/axiosApi";
-import { TokenStorage } from "@/utils/secure-storage.utils";
-import { useToast } from "@/store/toast-store";
+import { useRouter } from "expo-router";
+import { useEffect, useRef, useState, type ElementRef } from "react";
+import {
+  Keyboard,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+  type TextInputProps,
+} from "react-native";
 
 type Prop = { onVerify: () => void; length: number; autoSubmit: boolean };
 const RESEND_SECONDS = 30;
 
-const OtpVerification = ({ onVerify, length = 6, autoSubmit = true }: Prop) => {
+const OtpVerification = ({ length = 6, autoSubmit = true }: Prop) => {
   const router = useRouter();
-  const inputRefs = useRef<(TextInput | null)[]>([]);
+  const inputRefs = useRef<(ElementRef<typeof TextInput> | null)[]>([]);
   const stopLoading = useLoadingModel((s) => s.stopLoadingModel);
   const setIsLoading = useLoadingModel((s) => s.showLoadingModal);
   const createMessage = useMessageModal((s) => s.createMessage);
@@ -70,7 +69,7 @@ const OtpVerification = ({ onVerify, length = 6, autoSubmit = true }: Prop) => {
   };
 
   const handleKeyPress = (
-    e: NativeSyntheticEvent<TextInputKeyPressEventData>,
+    e: Parameters<NonNullable<TextInputProps["onKeyPress"]>>[0],
     index: number,
   ) => {
     if (e.nativeEvent.key === "Backspace") {
@@ -121,12 +120,14 @@ const OtpVerification = ({ onVerify, length = 6, autoSubmit = true }: Prop) => {
       if (isAxiosError(e)) {
         createMessage(e.response?.data.message ?? "Error while resending OTP");
       }
-    }finally{stopLoading()}
+    } finally {
+      stopLoading();
+    }
   };
   return (
-    <View className="h-full bg-black">
+    <View className="h-full dark:bg-black">
       <View className="h-[90%] flex items-center justify-center px-5">
-        <Text className="mb-2 text-center text-2xl font-bold color-white">
+        <Text className="mb-2 text-center text-2xl font-bold dark:color-white">
           Enter Verification Code
         </Text>
         <Text className="mb-[30px] text-center text-base text-[#666]">
@@ -143,7 +144,7 @@ const OtpVerification = ({ onVerify, length = 6, autoSubmit = true }: Prop) => {
                 selectTextOnFocus
                 value={otp[index]}
                 keyboardType="numeric"
-                className="h-[55px] w-[45px] rounded-lg border-[1.5px] border-[#404040] text-center text-2xl font-bold color-white"
+                className="h-[55px] w-[45px] rounded-lg border-[1.5px] border-neutral-400 dark:border-[#404040] text-center text-2xl font-bold dark:color-white bg-neutral-200 dark:bg-transparent"
                 testID={`otp-input-${index}`}
                 onKeyPress={(e) => handleKeyPress(e, index)}
                 ref={(ref) => {
@@ -168,7 +169,7 @@ const OtpVerification = ({ onVerify, length = 6, autoSubmit = true }: Prop) => {
           <Text className="text-sm text-[#666]">Didn't receive code? </Text>
 
           <TouchableOpacity onPress={handleOnResend} disabled={countDown > 0}>
-            <Text className="font-semibold text-white text-sm">
+            <Text className="font-semibold text-blue-500 text-sm">
               {countDown > 0 ? `Resend OTP in ${countDown}s` : "Resend OTP"}
             </Text>
           </TouchableOpacity>
