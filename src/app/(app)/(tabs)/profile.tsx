@@ -23,7 +23,7 @@ export default function profile() {
   };
 
   return (
-    <SafeAreaView className={`flex-1 dark:bg-black  duration-150`}>
+    <SafeAreaView className={`flex-1 dark:bg-black duration-150`}>
       <CustomStatusBar />
       <Header title="Profile" />
       <View className="px-4">

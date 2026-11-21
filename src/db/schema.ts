@@ -30,9 +30,9 @@ export const messages = sqliteTable(
       .default(false),
     textMsg: text("text_msg").notNull(),
     createdAt: integer("created_at").notNull(),
-    status: text("status", { enum: ["pending", "sent", "sending", "delivered", "read", "failed"] })
+    status: text("status", { enum: ["Pending", "Delivered", "Sent", "Seen", "Error"] })
       .notNull()
-      .default("pending"),
+      .default("Pending"),
   },
   (t) => [index("conv_created_idx").on(t.conversationId, t.createdAt)],
 );

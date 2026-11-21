@@ -3,7 +3,8 @@ import { TokenStorage } from "@/utils/secure-storage.utils";
 import { SOCKET_URL } from "@/config/socket";
 
 // const baseURL = process.env.EXPO_PUBLIC_BACKEND_URL;
-const baseURL = SOCKET_URL;
+let baseURL = process.env.EXPO_PUBLIC_ENVIRONMENT === "Development" ? SOCKET_URL : process.env.EXPO_PUBLIC_BACKEND_URL;
+// const baseURL = SOCKET_URL;
 type RetryConfig = InternalAxiosRequestConfig & { _retry?: boolean };
 
 export const axiosApi = axios.create({

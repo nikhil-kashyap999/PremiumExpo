@@ -15,6 +15,7 @@ export function registerSocketListners(socket: Socket) {
     useSocketStore.getState().setStatus("connected");
   };
   const onDisconnect = () => {
+    console.log("Disconnected");
     useSocketStore.getState().setStatus("disconnected");
   };
   const onNewMessage = (msg: IncomingMessageType) => {
@@ -34,7 +35,7 @@ export function registerSocketListners(socket: Socket) {
       );
     }
     ChatRoomStore.getState().handleIncomingMessage(msg);
-    const determinedMessageStatus: Status = msg.senderid === useAuthStore.getState().participant?._id ? "read" : "delivered";
+    const determinedMessageStatus: Status = msg.senderid === useAuthStore.getState().participant?._id ? "Seen" : "Delivered";
     sendMessageStatus({ messageid: msg.messageid, receiverid: msg.senderid, status: determinedMessageStatus })
     updateMessageStatusInDb(msg.messageid, determinedMessageStatus);
   };
@@ -52,9 +53,10 @@ export function registerSocketListners(socket: Socket) {
   const onMessageAck = async (payload: {
     messageid: string;
     receiverid: string;
+    status: Status;
   }) => {
-    ChatRoomStore.getState().updateMessageStatus(payload.messageid, "sent");
-    updateMessageStatusInDb(payload.messageid, "sent");
+    ChatRoomStore.getState().updateMessageStatus(payload.messageid, payload.status);
+    updateMessageStatusInDb(payload.messageid, payload.status);
   }
   const onMessageStatus = async (payload: {
     messageid: string,
@@ -73,6 +75,7 @@ export function registerSocketListners(socket: Socket) {
   socket.on(SERVER_EVENTS.PRESENCE_UPDATE, onPresence);
   socket.on(SERVER_EVENTS.MESSAGE_STATUS, onMessageStatus);
   socket.on(SERVER_EVENTS.INVITE_NOTIFICATION, onInviteNotification);
+  socket.on(SERVER_EVENTS.MESSAGE_ERROR, (data) => { console.log("Message Error : ", data) })
 
   socket.on("connect_error", async (err) => {
     console.log(err);

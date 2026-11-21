@@ -1,7 +1,9 @@
-import { TokenStorage } from "@/utils/secure-storage.utils";
+import { SOCKET_URL as SU } from "@/config/socket";
 import { io, Socket } from "socket.io-client";
+import { TokenStorage } from "@/utils/secure-storage.utils";
 
-const SOCKET_URL = process.env.EXPO_PUBLIC_BACKEND_URL;
+// const SOCKET_URL = process.env.EXPO_PUBLIC_BACKEND_URL;
+const SOCKET_URL = process.env.EXPO_PUBLIC_ENVIRONMENT === "Development" ? SU : process.env.EXPO_PUBLIC_BACKEND_URL;
 
 export const socket: Socket = io(SOCKET_URL, {
   transports: ["websocket"],

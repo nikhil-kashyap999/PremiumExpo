@@ -24,15 +24,15 @@ export function MessagesContainer() {
 
   const MessageStatus = ({ status }: { status?: Status }) => {
     switch (status) {
-      case "pending":
+      case "Pending":
         return <Ionicons name="time-outline" size={14} color="#9ca3af" />;
-      case "sending":
-        return <Ionicons name="time-outline" size={14} color="#9ca3af" />;
-      case "sent":
+      // case "sending":
+      //   return <Ionicons name="time-outline" size={14} color="#9ca3af" />;
+      case "Sent":
         return <Ionicons name="checkmark" size={14} color="#9ca3af" />;
-      case "delivered":
+      case "Delivered":
         return <Ionicons name="checkmark-done" size={14} color="#9ca3af" />;
-      case "read":
+      case "Seen":
         return <Ionicons name="checkmark-done" size={14} color="#38bdf8" />;
       default:
         return null;
@@ -64,9 +64,9 @@ export function MessagesContainer() {
               className={`w-full mb-4 flex flex-row ${isMine ? "justify-end" : "justify-start"}`}
             >
               <View
-                className={`${item.isReceived ? "bg-neutral-900" : "bg-neutral-800"} max-w-72 flex-row items-end rounded-xl px-3 py-2`}
+                className={`${item.isReceived ? "dark:bg-neutral-900 bg-neutral-300" : "bg-neutral-800"} max-w-72 flex-row items-end rounded-xl px-3 py-2`}
               >
-                <Text className="text-white shrink">{item.textMsg}</Text>
+                <Text className={`shrink ${item.isReceived ? "dark:text-white text-black":"text-white"}`}>{item.textMsg}</Text>
 
                 {isMine && (
                   <View className="ml-2 mb-0.5">

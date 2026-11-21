@@ -33,20 +33,21 @@ export const ChatRoomStore = create<DefualtProp>((set, get) => ({
       return;
     }
     const msgId = Crypto.randomUUID();
+    const conversationId = getConversationId(userid, participentid);
     const msgObj: NewMessage = {
       id: msgId,
-      conversationId: getConversationId(userid, participentid),
+      conversationId,
       senderId: userid,
       isReceived: false,
       textMsg: text,
       createdAt: toMillis(),
-      status: "pending",
+      status: "Pending",
     };
     get().setMessage(msgObj);
     sendMessage({
-      receiverid: participentid,
       message: text,
       messageid: msgId,
+      receiverid: participentid,
       createdAt: msgObj.createdAt
     });
     saveMessages(msgObj, { isIncoming: false });
@@ -61,7 +62,7 @@ export const ChatRoomStore = create<DefualtProp>((set, get) => ({
         isReceived: true,
         textMsg: msg.message,
         createdAt: toMillis(),
-        status: "sent",
+        status: "Sent",
       };
       if (msg.senderid === useAuthStore.getState().participant?._id) {
         ChatRoomStore.getState().setMessage(msgObj);
