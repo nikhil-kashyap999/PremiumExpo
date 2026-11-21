@@ -45,19 +45,23 @@ const SignUpScreen = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView className="flex-1 dark:bg-black">
       <CustomStatusBar />
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={styles.keyboardAvoidingView}
+        className="flex-1"
       >
         <View className="flex-1">
-          <View style={styles.header}>
-            <Text className="text-center text-3xl text-white">Register</Text>
-            <Text style={styles.subtitle}>Create your account to continue</Text>
+          {/* Header */}
+          <View className="mt-[50px] items-center px-6">
+            <Text className="text-center text-3xl dark:text-white">Register</Text>
+            <Text className="mt-2.5 text-center text-base text-gray-500">
+              Create your account to continue
+            </Text>
           </View>
 
-          <View style={styles.formContainer}>
+          {/* Form */}
+          <View className="mt-[50px] px-6">
             <InputField
               placeholder="Enter your username"
               value={formData.username}
@@ -83,7 +87,6 @@ const SignUpScreen = () => {
               selectedAvatar={selectedAvatar}
               setShowAvatarModal={setShowAvatarModal}
               error={errors.avatarError}
-              // setError={setErrors}
             />
 
             <PasswordField
@@ -98,7 +101,10 @@ const SignUpScreen = () => {
             <TouchableOpacity
               disabled={isLoading}
               onPress={handleSignUp}
-              className="bg-blue-600 rounded-xl py-4 flex-row justify-center items-center mt-10"
+              activeOpacity={0.8}
+              className={`mt-10 flex-row items-center justify-center rounded-xl py-4 ${
+                isLoading ? "bg-blue-600/70" : "bg-blue-600"
+              }`}
             >
               {isLoading && (
                 <ActivityIndicator
@@ -107,7 +113,7 @@ const SignUpScreen = () => {
                   className="mr-3"
                 />
               )}
-              <Text className="text-white font-bold text-base">
+              <Text className="text-base font-bold text-white">
                 {isLoading ? "Please wait..." : "Register"}
               </Text>
             </TouchableOpacity>
@@ -115,10 +121,11 @@ const SignUpScreen = () => {
         </View>
       </KeyboardAvoidingView>
 
-      <View style={styles.footer}>
-        <Text style={styles.footerText}>Already have an account? </Text>
+      {/* Footer */}
+      <View className="mb-6 mt-auto flex-row items-center justify-center">
+        <Text className="text-sm dark:text-white">Already have an account? </Text>
         <TouchableOpacity onPress={toLoginScreen}>
-          <Text style={styles.signUpText}>Sign In</Text>
+          <Text className="text-sm font-semibold text-blue-500">Sign In</Text>
         </TouchableOpacity>
       </View>
 
@@ -131,63 +138,4 @@ const SignUpScreen = () => {
     </SafeAreaView>
   );
 };
-
 export default SignUpScreen;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "black",
-  },
-  keyboardAvoidingView: {
-    flex: 1,
-  },
-  header: {
-    alignItems: "center",
-    marginTop: 50,
-    paddingHorizontal: 24,
-  },
-
-  subtitle: {
-    fontSize: 16,
-    color: "gray",
-    textAlign: "center",
-    marginTop: 10,
-  },
-  formContainer: {
-    marginTop: 50,
-    paddingHorizontal: 24,
-  },
-
-  forgotPasswordContainer: {
-    alignSelf: "flex-end",
-    marginBottom: 24,
-  },
-  forgotPasswordText: {
-    color: "gray",
-    fontSize: 14,
-    fontWeight: "600",
-  },
-
-  footer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: "auto",
-    marginBottom: 24,
-  },
-  footerText: {
-    color: "white",
-    fontSize: 14,
-  },
-  signUpText: {
-    color: "#3B82F6",
-    fontSize: 14,
-    fontWeight: "600",
-  },
-  divider: {
-    width: "100%",
-    height: 0.02,
-    backgroundColor: "gray",
-  },
-});
