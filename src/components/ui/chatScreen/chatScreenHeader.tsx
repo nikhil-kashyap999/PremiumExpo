@@ -2,6 +2,7 @@ import useChatRoom from "@/hooks/useChatRoom";
 import { ContactType } from "@/hooks/useFetchContacts";
 import { useAuthStore } from "@/store/auth-store";
 import { useDropDown } from "@/store/dropDown-store";
+import { useThemeStore } from "@/store/theme-store";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { Image } from "expo-image";
@@ -23,12 +24,13 @@ export default function ChatScreenHeader({
   participant: ContactType;
 }) {
   const router = useRouter();
+  const isDark = useThemeStore((s) => s.mode) === "dark";
   const { handleDeleteAllMessages: onClearChat } = useChatRoom();
   const showDropDown = useDropDown((s) => s.showDropDown);
   const isActive = !!participant?.isActive;
   const progress = useSharedValue(isActive ? 1 : 0); // 0 = offline, 1 = online
   const pulse = useSharedValue(1);
-  const removeParticipant = useAuthStore(s=>s.removeParticipant);
+  const removeParticipant = useAuthStore((s) => s.removeParticipant);
 
   useEffect(() => {
     progress.value = withTiming(isActive ? 1 : 0, {
@@ -83,13 +85,13 @@ export default function ChatScreenHeader({
   return (
     <View className="w-screen max-h-20 items-center flex-row justify-between px-2 mb-3">
       <TouchableOpacity
-        className="h-14 w-14 rounded-full px-3 flex justify-center items-center bg-neutral-700 "
+        className="h-14 w-14 rounded-full px-3 flex justify-center items-center dark:bg-neutral-700 bg-neutral-300"
         onPress={back}
       >
-        <Ionicons name="arrow-back" size={24} color="white" />
+        <Ionicons name="arrow-back" size={24} color={isDark?"white":"black"} />
       </TouchableOpacity>
       <View className="h-full flex-1 justify-center py-1 overflow-x-hidden">
-        <View className="self-center flex-row items-center rounded-full px-1 py-1 bg-neutral-700 max-w-[80%]">
+        <View className="self-center flex-row items-center rounded-full px-1 py-1 dark:bg-neutral-700 bg-neutral-300 max-w-[80%]">
           <View className="w-12 h-12 bg-black items-center justify-center rounded-full shrink-0">
             <Image
               source={{ uri: participant?.avatarUrl }}
@@ -102,7 +104,7 @@ export default function ChatScreenHeader({
 
           <View className="shrink ml-2 mr-1 justify-center pr-2">
             <Text
-              className="text-stone-200 font-bold text-center"
+              className="dark:text-stone-200 text-black font-bold text-center"
               numberOfLines={1}
               ellipsizeMode="tail"
             >
@@ -118,10 +120,10 @@ export default function ChatScreenHeader({
         </View>
       </View>
       <TouchableOpacity
-        className="h-14 w-14 rounded-full px-3 flex justify-center items-center bg-neutral-700"
+        className="h-14 w-14 rounded-full px-3 flex justify-center items-center dark:bg-neutral-700 bg-neutral-300"
         onPress={openMenu}
       >
-        <MaterialCommunityIcons name="dots-vertical" size={24} color="white" />
+        <MaterialCommunityIcons name="dots-vertical" size={24} color={isDark?"white":"black"} />
       </TouchableOpacity>
     </View>
   );

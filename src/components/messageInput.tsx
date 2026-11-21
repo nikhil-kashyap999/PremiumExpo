@@ -4,10 +4,12 @@ import Animated, { FadeInDown } from "react-native-reanimated";
 import { TextInput, TouchableOpacity, View } from "react-native";
 import { ChatRoomStore } from "@/store/chat-store";
 import { useAuthStore } from "@/store/auth-store";
+import { useThemeStore } from "@/store/theme-store";
 
 export default function MessageInput() {
   const [text, setText] = useState<string>("");
   const userid = useAuthStore((s) => s.user?.id);
+  const isDark = useThemeStore((s) => s.mode) === "dark";
   const participantid = useAuthStore((s) => s.participant?._id);
 
   const handleSendMessage = () => {
@@ -28,15 +30,19 @@ export default function MessageInput() {
             placeholder="Enter Message"
             placeholderTextColor={"gray"}
             onChangeText={(text) => setText(text)}
-            className="color-white px-4 h-auto text-lg flex-1 bg-neutral-700 border border-neutral-600 my-2 rounded-full"
+            className="dark:color-white color-black px-4 h-auto text-lg flex-1 dark:bg-neutral-700 bg-neutral-300 dark:border dark:border-neutral-600 my-2 rounded-full"
           />
           <View className="flex justify-center">
             <TouchableOpacity
-              className="w-14 h-14 rounded-full justify-center items-center bg-neutral-700"
+              className="w-14 h-14 rounded-full justify-center items-center dark:bg-neutral-700 bg-neutral-300"
               onPress={handleSendMessage}
               disabled={!text}
             >
-              <Ionicons name="send" size={25} color="white" />
+              <Ionicons
+                name="send"
+                size={25}
+                color={isDark ? "white" : "black"}
+              />
             </TouchableOpacity>
           </View>
         </Animated.View>

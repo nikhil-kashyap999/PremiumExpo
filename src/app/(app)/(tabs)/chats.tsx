@@ -68,10 +68,10 @@ export default function ChatsScreen() {
         entering={FadeInDown.duration(400)}
         className={"py-2 px-2"}
       >
-        <View className="rounded-xl py-1 px-4  shadow-neutral-300 shadow-lg z-10 border border-neutral-800 bg-neutral-900 flex-row items-center">
+        <View className="rounded-xl py-1 px-4 shadow-neutral-300 shadow-lg z-10 dark:border dark:border-neutral-800 dark:bg-neutral-900 bg-neutral-300 flex-row items-center">
           <Feather name="search" size={25} color="gray" />
           <TextInput
-            className="color-white ml-2 flex-1"
+            className="dark:color-white color-black ml-2 flex-1"
             placeholder="Search contacts..."
             placeholderTextColor="#A3A3A3"
             value={searchQuery}

@@ -24,7 +24,7 @@ export default function ChatScreen() {
   return (
     <SafeAreaView className="flex-1 bg-white dark:bg-black">
       <CustomStatusBar />
-        <DropDown />
+      <DropDown />
       <KeyboardAvoidingView className="flex-1" behavior="padding">
         <ChatScreenHeader participant={participant} />
         <View className="flex-1">
