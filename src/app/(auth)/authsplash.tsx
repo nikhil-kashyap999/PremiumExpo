@@ -1,7 +1,7 @@
 import logo from "@/assets/images/logo.png";
 import { useEffect, useState } from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
-import { SafeAreaProvider } from "react-native-safe-area-context";
+import { View, Text, Image } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function AuthSaplash() {
   const [dots, setDots] = useState(".");
@@ -14,74 +14,25 @@ export default function AuthSaplash() {
   }, []);
 
   return (
-    <SafeAreaProvider style={styles.container}>
-      <Image source={logo} style={styles.logoStyle} />
+    <SafeAreaView className="flex-1 justify-center items-center pb-12 dark:bg-black">
+      <Image source={logo} className="w-[130px] h-[120px] mb-5" />
       {/* Title */}
-      <Text style={styles.title}>PREMIUM</Text>
+      <Text className="text-2xl dark:color-[#E0E0E0] color-black tracking-[25px] font-bold mb-4">
+        PREMIUM
+      </Text>
 
       {/* Authenticating */}
-      <Text style={styles.authText}>Authenticating{dots}</Text>
+      <Text className="dark:color-neutral-200 color-neutral-700 mb-5">
+        Authenticating{dots}
+      </Text>
 
       {/* Footer */}
-      <View style={styles.footer}>
-        <Text style={styles.version}>Version v0.0.1</Text>
-        <Text style={styles.dev}>
+      <View className="absolute bottom-6 items-center">
+        <Text className="text-sm color-neutral-400 mb-1">Version v0.0.1</Text>
+        <Text className="text-sm color-neutral-400">
           Developed By <Text style={{ fontWeight: "700" }}>BlackCode</Text>
         </Text>
       </View>
-    </SafeAreaProvider>
+    </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    paddingBottom: 50,
-    backgroundColor:"black"
-  },
-  logoStyle: {
-    width: 130,
-    height: 120,
-    marginBottom: 20,
-  },
-  title: {
-    fontSize: 28,
-    color: "#E0E0E0",
-    letterSpacing: 25,
-    fontWeight: "bold",
-    marginBottom: 15,
-  },
-  authText: {
-    fontSize: 14,
-    color: "#bbb",
-    marginBottom: 20,
-  },
-  progressContainer: {
-    width: "65%",
-    height: 2,
-    borderRadius: 4,
-    backgroundColor: "#222",
-    overflow: "hidden",
-    marginBottom: 30,
-  },
-  progressBar: {
-    height: "100%",
-    backgroundColor: "#f59128", // orange accent
-  },
-  footer: {
-    position: "absolute",
-    bottom: 25,
-    alignItems: "center",
-  },
-  version: {
-    fontSize: 12,
-    color: "#aaa",
-    marginBottom: 4,
-  },
-  dev: {
-    fontSize: 12,
-    color: "#aaa",
-  },
-});

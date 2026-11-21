@@ -1,14 +1,6 @@
 import React, { memo } from "react";
-import {
-  View,
-  TextInput,
-  StyleSheet,
-  Text,
-  StyleProp,
-  ViewStyle,
-  TextInputProps,
-} from "react-native";
 import Icon from "@expo/vector-icons/Ionicons";
+import { View, TextInput, Text, TextInputProps } from "react-native";
 
 export type IconName = React.ComponentProps<typeof Icon>["name"];
 
@@ -21,7 +13,7 @@ interface InputFieldProps extends Omit<
   iconType?: IconName;
   valueError?: string;
   setValueError?: (err: string) => void;
-  customStyles?:string;
+  customStyles?: string;
 }
 
 const InputField = ({
@@ -40,47 +32,28 @@ const InputField = ({
   };
 
   return (
-    <View style={[styles.inputContainer]} className={`${customStyles}`}>
-      <View style={[styles.inputWrapper, !!valueError && styles.inputError]}>
+    <View className={`${customStyles} mb-5`}>
+      <View
+        className={`flex-row items-center rounded-2xl px-4 border  dark:bg-neutral-900 bg-neutral-300 ${!!valueError ? "border-red-600" : "border-neutral-400 dark:border-neutral-700"}`}
+      >
         {iconType && (
-          <Icon
-            name={iconType}
-            size={20}
-            color="gray"
-            style={styles.inputIcon}
-          />
+          <Icon size={20} color="gray" name={iconType} className="mr-3" />
         )}
         <TextInput
-          autoCapitalize="none"
-          placeholderTextColor="gray"
           {...rest}
-          style={styles.input}
-          placeholder={placeholder}
           value={value}
+          autoCapitalize="none"
+          placeholder={placeholder}
+          placeholderTextColor="gray"
           onChangeText={handleChange}
+          className="flex-1 dark:text-white text-black my-2"
         />
       </View>
-      {!!valueError && <Text style={styles.errorText}>{valueError}</Text>}
+      {!!valueError && (
+        <Text className="color-red-600 text-sm mt-1 ml-1">{valueError}</Text>
+      )}
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  inputContainer: { marginBottom: 20 },
-  inputWrapper: {
-    flexDirection: "row",
-    alignItems: "center",
-    borderRadius: 12,
-    paddingHorizontal: 16,
-    height: 56,
-    borderWidth: 1,
-    borderColor: "#404040",
-    backgroundColor: "#171717",
-  },
-  inputError: { borderColor: "red" },
-  inputIcon: { marginRight: 12 },
-  input: { flex: 1, color: "white", fontSize: 16 },
-  errorText: { color: "red", fontSize: 12, marginTop: 4, marginLeft: 4 },
-});
 
 export default memo(InputField);

@@ -1,48 +1,7 @@
 import Icon from "@expo/vector-icons/build/Ionicons";
-import React, { memo } from "react";
-import {
-  View,
-  TextInput,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-} from "react-native";
+import { memo } from "react";
+import { View, TextInput, Text, TouchableOpacity } from "react-native";
 
-const styles = StyleSheet.create({
-  inputContainer: {
-    marginBottom: 20,
-  },
-  inputWrapper: {
-    flexDirection: "row",
-    alignItems: "center",
-    borderRadius: 12,
-    paddingHorizontal: 16,
-    height: 56,
-    borderWidth: 1,
-    borderColor: "#404040",
-    backgroundColor:"#171717"
-  },
-  inputError: {
-    borderColor: "red",
-  },
-  inputIcon: {
-    marginRight: 12,
-  },
-  input: {
-    flex: 1,
-    color: "white",
-    fontSize: 16,
-  },
-  errorText: {
-    color: "red",
-    fontSize: 12,
-    marginTop: 4,
-    marginLeft: 4,
-  },
-  eyeIcon: {
-    padding: 4,
-  },
-});
 type Prop = {
   password: string;
   setPassword: (password: string) => void;
@@ -62,29 +21,24 @@ const PasswordField = ({
   placeholder = "Enter your password",
 }: Prop) => {
   return (
-    <View style={styles.inputContainer}>
+    <View className="mb-5">
       <View
-        style={[styles.inputWrapper, passwordError ? styles.inputError : null]}
+        className={`flex-row items-center rounded-2xl px-4 border dark:bg-neutral-900 bg-neutral-300 ${passwordError ? "border-red-600" : "border-neutral-400 dark:border-neutral-700"}`}
       >
-        <Icon
-          name="lock-closed"
-          size={20}
-          color="gray"
-          style={styles.inputIcon}
-        />
+        <Icon size={20} color="gray" name="lock-closed" className="mr-3" />
         <TextInput
-          style={styles.input}
+          value={password}
           placeholder={placeholder}
           placeholderTextColor="gray"
-          value={password}
           onChangeText={(text) => {
             setPassword(text);
           }}
           secureTextEntry={!isPasswordVisible}
+          className="flex-1 dark:text-white text-black my-2"
         />
         <TouchableOpacity
+          className="p-1"
           onPress={() => setIsPasswordVisible(!isPasswordVisible)}
-          style={styles.eyeIcon}
         >
           <Text className="text-blue-600 text-sm font-bold">
             {isPasswordVisible ? "hide" : "show"}
@@ -92,7 +46,7 @@ const PasswordField = ({
         </TouchableOpacity>
       </View>
       {passwordError ? (
-        <Text style={styles.errorText}>{passwordError}</Text>
+        <Text className="color-red-600 mt-1 ml-1 text-sm">{passwordError}</Text>
       ) : null}
     </View>
   );

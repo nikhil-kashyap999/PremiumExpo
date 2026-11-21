@@ -16,7 +16,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 type Prop = {
   onClose: () => void;
   isModalVisible: boolean;
-  prevSelectedAvatar: AvatarType|null;
+  prevSelectedAvatar: AvatarType | null;
   onSelectAvatar: (selected: AvatarType) => void;
 };
 
@@ -120,63 +120,78 @@ const AvatarModal = ({
       }
     }
   };
+  const renderItem = ({ item }: { item: AvatarType }) => {
+    const isPrev = prevAvatar && prevAvatar.id === item.id;
+    const isSelected = selectedAvatar === item.id;
 
-  const renderItem = ({ item }: { item: AvatarType }) => (
-    <TouchableOpacity
-      style={[
-        styles.avatarItem,
-        prevAvatar && prevAvatar.id === item.id && styles.selectedAvatarItem,
-        selectedAvatar === item.id && styles.selectedAvatarItem,
-      ]}
-      onPress={() => handleSelectAvatar(item)}
-      activeOpacity={0.8}
-    >
-      <Image
-        source={{ uri: item.avatarSrc }}
-        style={styles.avatarImage}
-        resizeMode="cover"
-      />
-      {prevAvatar && prevAvatar.id === item.id && (
-        <View style={styles.selectedOverlay}>
-          <Text style={styles.checkmark}>Selected</Text>
-        </View>
-      )}
+    return (
+      <TouchableOpacity
+        className={`m-[5px] overflow-hidden rounded-[10px] ${
+          isPrev || isSelected
+            ? "border-2 border-neutral-400"
+            : "border border-neutral-700"
+        }`}
+        style={{ width: avatarSize, height: avatarSize }}
+        onPress={() => handleSelectAvatar(item)}
+        activeOpacity={0.8}
+      >
+        <Image
+          source={{ uri: item.avatarSrc }}
+          className="h-full w-full"
+          resizeMode="cover"
+        />
 
-      {selectedAvatar === item.id && (
-        <View style={styles.selectedOverlay}>
-          <Text style={styles.checkmark}>select</Text>
-        </View>
-      )}
-    </TouchableOpacity>
-  );
+        {isPrev && (
+          <View className="absolute inset-0 items-center justify-center bg-[rgba(66,68,71,0.34)]">
+            <Text className="overflow-hidden rounded-[10px] bg-neutral-100 px-4 text-xs text-black">
+              Selected
+            </Text>
+          </View>
+        )}
+
+        {isSelected && (
+          <View className="absolute inset-0 items-center justify-center bg-[rgba(66,68,71,0.34)]">
+            <Text className="overflow-hidden rounded-[10px] bg-neutral-100 px-4 text-xs text-black">
+              select
+            </Text>
+          </View>
+        )}
+      </TouchableOpacity>
+    );
+  };
 
   return (
     <Modal
       visible={isModalVisible}
       animationType="none" // avoid conflict with custom animation
-      transparent={true}
+      transparent
       onRequestClose={() => onClose?.()}
     >
-      <SafeAreaView style={{ flex: 1 }}>
+      <SafeAreaView className="flex-1">
         {/* Backdrop */}
         <Animated.View
-          style={[styles.modalContainer, { opacity: backdropOpacity }]}
+          className="flex-1 items-center justify-center bg-black/50"
+          style={{ opacity: backdropOpacity }}
         >
           {/* Modal Content */}
           <Animated.View
-            style={[
-              styles.modalContent,
-              {
-                transform: [
-                  { translateY: modalTranslateY },
-                  { scale: modalScale },
-                ],
-              },
-            ]}
+            className="max-h-[60%] w-[90%] overflow-hidden rounded-[10px] bg-neutral-700 shadow-lg shadow-black"
+            style={{
+              elevation: 5,
+              transform: [
+                { translateY: modalTranslateY },
+                { scale: modalScale },
+              ],
+            }}
           >
-            <View style={styles.header}>
-              <Text style={styles.title}>Select Avatar</Text>
-              <Text className="text-sm text-neutral-400">Pick an avatar for your profile</Text>
+            {/* Header */}
+            <View className="items-center p-[15px]">
+              <Text className="text-lg font-semibold text-white">
+                Select Avatar
+              </Text>
+              <Text className="text-sm text-neutral-400">
+                Pick an avatar for your profile
+              </Text>
             </View>
 
             <FlatList
@@ -184,35 +199,25 @@ const AvatarModal = ({
               renderItem={renderItem}
               keyExtractor={(item) => item.id.toString()}
               numColumns={3}
-              // contentContainerStyle={styles.avatarGrid}
             />
 
-            <View style={styles.footer}>
+            {/* Footer */}
+            <View className="flex-row justify-between p-[15px]">
               <TouchableOpacity
-                style={[styles.button]}
+                className="min-w-[100px] items-center rounded-[5px] px-5 py-2.5"
                 onPress={() => closeModal()}
               >
-                <Text style={styles.cancelButtonText}>Cancel</Text>
+                <Text className="font-bold text-red-500">Cancel</Text>
               </TouchableOpacity>
+
               <TouchableOpacity
-                style={[
-                  styles.button,
-                  !selectedAvatar && styles.disabledButton,
-                ]}
+                className={`min-w-[100px] items-center rounded-[5px] px-5 py-2.5 ${
+                  selectedAvatar ? "bg-blue-600" : "bg-gray-500 opacity-70"
+                }`}
                 onPress={handleConfirm}
                 disabled={!selectedAvatar}
               >
-                <Text
-                  style={[
-                    styles.buttonText,
-                    selectedAvatar
-                      ? styles.confirmButtonText
-                      : styles.disabledText,
-                  ]}
-                  className="bgneu"
-                >
-                  Confirm
-                </Text>
+                <Text className="font-bold text-white">Confirm</Text>
               </TouchableOpacity>
             </View>
           </Animated.View>
@@ -221,109 +226,4 @@ const AvatarModal = ({
     </Modal>
   );
 };
-
-const styles = StyleSheet.create({
-  modalContainer: {
-    flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  modalContent: {
-    width: "90%",
-    maxHeight: "60%",
-    backgroundColor: "#404040",
-    borderRadius: 10,
-    overflow: "hidden",
-    elevation: 5,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-  },
-  header: {
-    flexDirection: "column",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: "#404040",
-  },
-  title: {
-    fontSize: 18,
-    color: "white",
-    fontWeight: "semibold",
-  },
-  avatarItem: {
-    width: avatarSize,
-    height: avatarSize,
-    margin: 5,
-    borderRadius: 10,
-    overflow: "hidden",
-    borderWidth: 1,
-    borderColor: "#404040",
-  },
-  selectedAvatarItem: {
-    borderWidth: 2,
-    borderColor: "#b1b1b1ff",
-  },
-  avatarImage: {
-    width: "100%",
-    height: "100%",
-  },
-  selectedOverlay: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: "rgba(66, 68, 71, 0.34)",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  checkmark: {
-    justifyContent: "center",
-    alignItems: "center",
-    paddingHorizontal: 15,
-    borderRadius: 10,
-    backgroundColor: "#f7f7f7ff",
-  },
-  footer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    padding: 15,
-    borderTopWidth: 1,
-    borderTopColor: "#404040",
-  },
-  button: {
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 5,
-    minWidth: 100,
-    alignItems: "center",
-  },
-  confirmButton: {
-    backgroundColor: "blue",
-  },
-  cancelButtonText: {
-    color: "red",
-    fontWeight: "bold",
-  },
-  disabledButton: {
-    backgroundColor: "gray",
-    opacity: 0.7,
-  },
-
-  disabledText: {
-    color: "white",
-  },
-  confirmButtonText: {
-    color: "white",
-  },
-  buttonText: {
-    color: "#fff",
-    fontWeight: "bold",
-  },
-});
-
 export default AvatarModal;
