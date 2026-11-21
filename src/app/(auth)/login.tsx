@@ -2,7 +2,6 @@ import {
   View,
   Text,
   Platform,
-  StyleSheet,
   TouchableOpacity,
   KeyboardAvoidingView,
   ActivityIndicator,
@@ -23,7 +22,7 @@ type InputErrorType = {
   passwordFieldError?: string;
 };
 
-const LoginScreen = () => {
+export default function LoginScreen() {
   const router = useRouter();
   const login = useAuthStore((s) => s.login);
   const createToast = useToast((s) => s.createToast);
@@ -72,24 +71,28 @@ const LoginScreen = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView className="flex-1 justify-center dark:bg-black">
       <CustomStatusBar />
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={styles.keyboardAvoidingView}
+        className="flex-1"
       >
         <View className="flex-1 justify-center">
-          <View style={styles.header}>
-            <Text style={styles.title}>Welcome Back</Text>
-            <Text style={styles.subtitle}>
+          {/* Header */}
+          <View className="items-center px-6">
+            <Text className="mb-2 text-[22px] font-semibold dark:text-white text-black">
+              Welcome Back
+            </Text>
+            <Text className="text-center text-base text-gray-500">
               Sign in to your account to continue
             </Text>
           </View>
 
-          <View style={styles.formContainer}>
+          {/* Form */}
+          <View className="mt-[60px] px-6">
             <InputField
               value={username}
-              iconType={"person"}
+              iconType="person"
               setValue={setUsername}
               placeholder="Enter your username"
               valueError={errors.usernameFieldError}
@@ -104,15 +107,21 @@ const LoginScreen = () => {
             />
 
             <TouchableOpacity
-              style={styles.forgotPasswordContainer}
+              className="mb-6 self-end"
               onPress={handleNavigation.toForgetPassword}
             >
-              <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
+              <Text className="text-sm font-semibold dark:text-white text-black">
+                Forgot Password?
+              </Text>
             </TouchableOpacity>
 
             <TouchableOpacity
               onPress={handleLogin}
-              className="bg-blue-600 rounded-xl py-4 flex-row justify-center items-center"
+              disabled={loading}
+              activeOpacity={0.8}
+              className={`flex-row items-center justify-center rounded-xl py-4 ${
+                loading ? "bg-blue-600/70" : "bg-blue-600"
+              }`}
             >
               {loading && (
                 <ActivityIndicator
@@ -121,93 +130,23 @@ const LoginScreen = () => {
                   className="mr-3"
                 />
               )}
-              <Text className="text-white font-bold text-base">
+              <Text className="text-base font-bold text-white">
                 {loading ? "Logging in..." : "Login"}
               </Text>
             </TouchableOpacity>
           </View>
         </View>
       </KeyboardAvoidingView>
-      <View style={styles.footer}>
-        <Text style={styles.footerText}>Don't have an account? </Text>
+
+      {/* Footer */}
+      <View className="mb-6 mt-auto flex-row items-center justify-center">
+        <Text className="text-sm dark:text-white text-black">
+          Don't have an account?{" "}
+        </Text>
         <TouchableOpacity onPress={handleNavigation.toSingup}>
-          <Text style={styles.signUpText}>Sign Up</Text>
+          <Text className="text-sm font-semibold text-blue-500">Sign Up</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
-};
-
-export default LoginScreen;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    backgroundColor: "black",
-  },
-  keyboardAvoidingView: {
-    flex: 1,
-  },
-  header: {
-    alignItems: "center",
-    marginTop: 0,
-    paddingHorizontal: 24,
-  },
-  logoContainer: {
-    marginBottom: 24,
-  },
-  logoBackground: {
-    width: "auto",
-    padding: 8,
-    borderRadius: 15,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  logoText: {
-    fontSize: 25,
-    letterSpacing: 20,
-    fontWeight: "900",
-    color: "gray", // Changed from neutral_300 to main text color
-  },
-  title: {
-    fontSize: 22,
-    fontWeight: "600",
-    color: "white", // Changed from neutral_300 to main text color
-    marginBottom: 8,
-  },
-  subtitle: {
-    fontSize: 16,
-    color: "gray", // Changed from hardcoded #737373 to theme lightText
-    textAlign: "center",
-  },
-  formContainer: {
-    marginTop: 60,
-    paddingHorizontal: 24,
-  },
-  forgotPasswordContainer: {
-    alignSelf: "flex-end",
-    marginBottom: 24,
-  },
-  forgotPasswordText: {
-    color: "white", // Changed from hardcoded #737373
-    fontSize: 14,
-    fontWeight: "600",
-  },
-  footer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: "auto",
-    marginBottom: 24,
-  },
-  footerText: {
-    color: "white", // Changed from hardcoded #737373
-    fontSize: 14,
-  },
-  signUpText: {
-    color: "#3B82F6",
-    fontSize: 14,
-    fontWeight: "600",
-  },
-});
+}
