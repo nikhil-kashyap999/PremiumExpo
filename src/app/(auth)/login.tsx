@@ -16,6 +16,7 @@ import { useMessageModal } from "@/store/messageModal-store";
 import { useRouter } from "expo-router";
 import axios from "axios";
 import { useToast } from "@/store/toast-store";
+import useKeyboardVisible from "@/hooks/useKeyboardVisible";
 
 type InputErrorType = {
   usernameFieldError?: string;
@@ -34,12 +35,13 @@ export default function LoginScreen() {
     usernameFieldError: "",
     passwordFieldError: "",
   });
+  const isKeyboardVisible = useKeyboardVisible();
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
+
   const handleNavigation = {
     toSingup: () => router.replace("/(auth)/signup"),
     toForgetPassword: () => router.push("/(auth)/forget-password"),
   };
-
   const handleLogin = async () => {
     setLoading(true);
     setErrors({ usernameFieldError: "", passwordFieldError: "" });
@@ -139,14 +141,16 @@ export default function LoginScreen() {
       </KeyboardAvoidingView>
 
       {/* Footer */}
-      <View className="mb-6 mt-auto flex-row items-center justify-center">
-        <Text className="text-sm dark:text-white text-black">
-          Don't have an account?{" "}
-        </Text>
-        <TouchableOpacity onPress={handleNavigation.toSingup}>
-          <Text className="text-sm font-semibold text-blue-500">Sign Up</Text>
-        </TouchableOpacity>
-      </View>
+      {!isKeyboardVisible && (
+        <View className="mb-6 mt-auto flex-row items-center justify-center">
+          <Text className="text-sm dark:text-white text-black">
+            Don't have an account?{" "}
+          </Text>
+          <TouchableOpacity onPress={handleNavigation.toSingup}>
+            <Text className="text-sm font-semibold text-blue-500">Sign Up</Text>
+          </TouchableOpacity>
+        </View>
+      )}
     </SafeAreaView>
   );
 }

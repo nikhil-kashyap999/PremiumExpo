@@ -3,15 +3,14 @@ import AvatarField from "@/components/ui/InputFields/AvatarField";
 import InputField from "@/components/ui/InputFields/InputField";
 import PasswordField from "@/components/ui/InputFields/PasswordField";
 import AvatarModal from "@/components/ui/Modal/AvatarModal";
+import useKeyboardVisible from "@/hooks/useKeyboardVisible";
 import useSignupForm from "@/hooks/useSignupForm";
-import { useMessageModal } from "@/store/messageModal-store";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import {
   ActivityIndicator,
   KeyboardAvoidingView,
   Platform,
-  StyleSheet,
   Text,
   TouchableOpacity,
   View,
@@ -27,9 +26,9 @@ export type ErrorsType = {
 
 const SignUpScreen = () => {
   const router = useRouter();
-  const createMessage = useMessageModal((s) => s.createMessage);
   const [showAvatarModal, setShowAvatarModal] = useState<boolean>(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
+  const isKeyboardVisible = useKeyboardVisible();
   const {
     handleSignUp,
     updateFormData,
@@ -54,7 +53,9 @@ const SignUpScreen = () => {
         <View className="flex-1">
           {/* Header */}
           <View className="mt-[50px] items-center px-6">
-            <Text className="text-center text-3xl dark:text-white">Register</Text>
+            <Text className="text-center text-3xl dark:text-white">
+              Register
+            </Text>
             <Text className="mt-2.5 text-center text-base text-gray-500">
               Create your account to continue
             </Text>
@@ -122,12 +123,16 @@ const SignUpScreen = () => {
       </KeyboardAvoidingView>
 
       {/* Footer */}
-      <View className="mb-6 mt-auto flex-row items-center justify-center">
-        <Text className="text-sm dark:text-white">Already have an account? </Text>
-        <TouchableOpacity onPress={toLoginScreen}>
-          <Text className="text-sm font-semibold text-blue-500">Sign In</Text>
-        </TouchableOpacity>
-      </View>
+      {!isKeyboardVisible && (
+        <View className="mb-6 mt-auto flex-row items-center justify-center">
+          <Text className="text-sm dark:text-white">
+            Already have an account?{" "}
+          </Text>
+          <TouchableOpacity onPress={toLoginScreen}>
+            <Text className="text-sm font-semibold text-blue-500">Sign In</Text>
+          </TouchableOpacity>
+        </View>
+      )}
 
       <AvatarModal
         isModalVisible={showAvatarModal}
