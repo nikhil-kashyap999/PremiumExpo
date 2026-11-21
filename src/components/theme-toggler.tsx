@@ -16,7 +16,7 @@ export default function ThemeSelector() {
     <View className="rounded-xl bg-neutral-200 dark:bg-neutral-800 p-1 mb-4">
       <View className="flex-row items-center px-3 mb-1">
         <View className="w-10 h-10 rounded-2xl justify-center items-center mr-4">
-          <Icon name={"light"} size={25} color={mode==="dark"?"white":"black"} />
+          <Icon name={"light-mode"} size={25} color={mode==="dark"?"white":"black"} />
         </View>
         <View>
           <Text className="text-black dark:text-white font-bold">
